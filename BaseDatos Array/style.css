@@ -1,0 +1,29 @@
+th {
+    padding: 5px;
+    padding: 0px 60px 0 60px;
+    background-color: rgb(177, 177, 177);
+}
+
+td {
+    background-color: rgb(218, 218, 218);
+    padding: 10px;
+}
+
+td,
+th,
+table .isertUsuario {
+    border: 1px solid black;
+}
+
+.boton {
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+::placeholder {
+    text-align: center;
+}
+
+#updateUsuario {
+    display: none;
+}
