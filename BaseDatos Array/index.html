@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+        crossorigin="anonymous"></script>
+    <title>AlbertoJS</title>
+</head>
+<style>
+    th {
+        padding: 5px;
+        padding: 0px 60px 0 60px;
+        background-color: rgb(177, 177, 177);
+    }
+
+    td {
+        background-color: rgb(218, 218, 218);
+        padding: 10px;
+    }
+
+    td,
+    th,
+    table .isertUsuario {
+        border: 1px solid black;
+    }
+
+    .boton {
+        margin-right: 5px;
+        margin-left: 5px;
+    }
+
+    ::placeholder {
+        text-align: center;
+    }
+
+    #updateUsuario {
+        display: none;
+    }
+</style>
+
+<body>
+
+    <div class="container d-flex text-center justify-content-center align-middle gap-5">
+        <div class="tabla">
+            <h2 class="text-center">USUARIOS</h2>
+            <table id="myTable">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Apellido2</th>
+                        <th>Edad</th>
+                        <th>Dni</th>
+                        <th>Editar Usuario</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td><input type="text" class="form-control" id="nombre" placeholder="Nombre"></td>
+                        <td><input type="text" class="form-control" id="apellido" placeholder="Apellido"></td>
+                        <td><input type="text" class="form-control" id="apellido2" placeholder="Segundo Apellido"></td>
+                        <td><input type="number" min="0" class="form-control" id="edad" placeholder="Edad"></td>
+                        <td><input type="text" class="form-control" id="dni" placeholder="Dni"></td>
+                        <td><button onclick="insertUsuario()" type="button" class="btn btn-primary">Añadir
+                                Usuario</button></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <div class="container mt-3 " id="updateUsuario">
+        <h1 class="text-center">Update Usuario</h1>
+        <div class="row">
+            <div class="col">
+                <input type="text" class="form-control" id="nombreUpdate" name="nombreUpdate" placeholder="Nombre">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" id="apellidoUpdate" name="apellidoUpdate"
+                    placeholder="Apellido">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" id="apellido2Update" name="apellido2Update"
+                    placeholder="Segundo Apellido">
+            </div>
+
+        </div>
+        <div class="row  mt-4">
+            <div class="col">
+                <input type="number" min="0" class="form-control" id="edadUpdate" name="edadUpdate" placeholder="Edad">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" name="dniUpdate" id="dniUpdate" readonly placeholder="Dni">
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <button id="actualizarUser" type="button" class="btn btn-primary">Update usuario</button>
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+
+
+</body>
+<script>
+    class persona {
+        constructor(nombre, apellido, apellido2, edad, dni) {
+            this.nombre = nombre;
+            this.apellido = apellido;
+            this.apellido2 = apellido2;
+            this.edad = edad;
+            this.dni = dni;
+        }
+        /* Getters */
+        get nombrePersona() {
+            return this.nombre;
+        }
+        get apellidoPersona() {
+            return this.apellido;
+        }
+        get apellidoPersona2() {
+            return this.apellido2;
+        }
+        get edadPersona() {
+            return this.edad;
+        }
+        get dniPersona() {
+            return this.dni;
+        }
+        set nombrePersona(nombrePersona) {
+            this.nombre = nombrePersona;
+        }
+        set apellidoPersona(apellidoPersona) {
+            this.apellido = apellidoPersona;
+        }
+        set apellidoPersona2(apellidoPersona2) {
+            this.apellido2 = apellidoPersona2;
+        }
+        set edadPersona(edadPersona) {
+            this.edad = edadPersona;
+        }
+        set dniPersona(dniPersona) {
+            this.dni = dniPersona;
+        }
+    }
+    let persona1 = new persona("Pablo", "Fernández", "López", 21, "4907191J");
+    let persona2 = new persona("Rafa", "Carrasco", "Perez", 32, "50833192A");
+    let persona3 = new persona("Dani", "Marquez", "Tolosa", 24, "59473736B");
+    var tbodyRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+    var arrayPersonas = new Array(persona1, persona2, persona3);
+    function table() {
+        try {
+            for (let i = 0; i < arrayPersonas.length; i++) {
+                var newRow = tbodyRef.insertRow(-1);
+                var newCell0 = newRow.insertCell();
+                var newCell2 = newRow.insertCell();
+                var newCell3 = newRow.insertCell();
+                var newCell4 = newRow.insertCell();
+                var newCell5 = newRow.insertCell();
+                var newCell6 = newRow.insertCell();
+                newCell0.appendChild(document.createTextNode(arrayPersonas[i].nombrePersona));
+                newCell2.appendChild(document.createTextNode(arrayPersonas[i].apellidoPersona));
+                newCell3.appendChild(document.createTextNode(arrayPersonas[i].apellidoPersona2));
+                newCell4.appendChild(document.createTextNode(arrayPersonas[i].edadPersona));
+                newCell5.appendChild(document.createTextNode(arrayPersonas[i].dniPersona));
+                newCell6.insertAdjacentHTML(
+                    "beforeend",
+                    "<input onclick='updateUsuario(this.name)' type='button' class='button btn btn-secondary boton' value='Editar' name= " + arrayPersonas[i].dniPersona + ">",
+                );
+                newCell6.insertAdjacentHTML(
+                    "beforeend",
+                    "<input onclick='eliminarUsuario(this.name)' type='button' class='button btn btn-danger boton' value='Eliminar' name= " + arrayPersonas[i].dniPersona + ">",
+                );
+            }
+        } catch (error) {
+            swal("ERROR", error, "error");
+        }
+    }
+
+    function limpiarTable() {
+        try {
+            tbodyRef.innerHTML = "";
+        } catch (error) {
+            swal("ERROR", error, "error");
+        }
+    }
+
+    function insertUsuario() {
+        try {
+            if (document.getElementById('dni').value != "" && document.getElementById('nombre').value != "") {
+                let persona1 = new persona(document.getElementById('nombre').value, document.getElementById('apellido').value, document.getElementById('apellido2').value, document.getElementById('edad').value, document.getElementById('dni').value);
+                arrayPersonas.push(persona1);
+                swal("Insertado " + document.getElementById('nombre').value, "Se ha insertado con exito", "success");
+            }
+            else if (document.getElementById('dni').value == "") {
+                swal("ERROR", "No se puede insertar con un dni vacio", "error");
+            }
+            else if (document.getElementById('nombre').value == "") {
+                swal("ERROR", "No se puede insertar con un nombre en vacio", "error");
+            }
+            else {
+                swal("ERROR", "No se puede insertar", "error");
+            }
+            limpiarTable();
+            table();
+        } catch (error) {
+            swal("ERROR", error, "error");
+        }
+    }
+    function eliminarUsuario(x) {
+        try {
+            if (x != "" || x != null) {
+                arrayPersonas.forEach(element => {
+                    if (element.dniPersona == x) {
+                        arrayPersonas = arrayPersonas.filter(person => person.dni != x);
+                    }
+                });
+                swal("Eliminado " + "DNI: " + x, "Se ha eliminado con exito", "success");
+            }
+            else {
+                swal("ERROR", "No se puede eliminar el usuario", "error");
+            }
+            limpiarTable();
+            table();
+        } catch (error) {
+            swal("ERROR", error, "error");
+        }
+    }
+    var x = "";
+    function xSet(x) {
+        this.x = x;
+    }
+    function updateUsuario(x) {
+        try {
+            this.xSet(x);
+            let personaUpdate = arrayPersonas.filter(person => person.dni == x);
+            document.getElementById("updateUsuario").style.display = "block";
+            nombreTabla = document.getElementsByName('nombreUpdate')[0].value = personaUpdate[0].nombre;
+            apellidoTabla = document.getElementsByName('apellidoUpdate')[0].value = personaUpdate[0].apellido;
+            apellido2Tabla = document.getElementsByName('apellido2Update')[0].value = personaUpdate[0].apellido2;
+            edadTabla = document.getElementsByName('edadUpdate')[0].value = personaUpdate[0].edad;
+            dniTabla = document.getElementsByName('dniUpdate')[0].value = personaUpdate[0].dni;
+        } catch (error) {
+            swal("ERROR", error, "error");
+        }
+    }
+    function actualizarUsuario() {
+        try {
+            if (document.getElementById("nombreUpdate").value != "") {
+                let nombre = document.getElementById("nombreUpdate").value;
+                let apellido = document.getElementById("apellidoUpdate").value;
+                let apellido2 = document.getElementById("apellido2Update").value;
+                let edad = document.getElementById("edadUpdate").value;
+                let dni = document.getElementById("dniUpdate").value;
+                arrayPersonas = arrayPersonas.filter(person => person.dni != x);
+                let persona2 = new persona(nombre, apellido, apellido2, edad, dni);
+                arrayPersonas.push(persona2);
+                document.getElementById("updateUsuario").style.display = "none";
+                limpiarTable();
+                table();
+                swal("Actualizado " + nombre, "Se ha actualizado con exito", "success");
+            }
+            if (document.getElementById("nombreUpdate").value == "") {
+                swal("ERROR", "No se puede actualizar sino tiene nombre", "error");
+            }
+        } catch (error) {
+            swal("ERROR", error, "error");
+        }
+    }
+    document.getElementById("actualizarUser").addEventListener('click', actualizarUsuario);
+    table();
+</script>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+</html>
