@@ -1,3 +1,19 @@
+function dateParser(dia, mes, anio, hora) {
+    let fecha = new Date(`${dia} ${mes} ${anio} ${hora}`);
+    let diaSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado']
+    let mesAnio = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    return date = (`${diaSemana[fecha.getDay()]}, ${fecha.getDate()} ${mesAnio[fecha.getMonth()]} ${fecha.getFullYear()} ${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`);
+}
+
+class Evento {
+    constructor(id, title, start, end) {
+        this.id = id;
+        this.title = title;
+        this.start = start;
+        this.end = end;
+    }
+}
+
 class persona {
     constructor(nombre, apellido, apellido2, edad, dni) {
         this.nombre = nombre;
@@ -38,6 +54,18 @@ class persona {
         this.dni = dniPersona;
     }
 }
+function eventsPrint(dni) {
+    eventos.forEach(elemento => {
+        elemento.id.forEach(element => {
+            if (element == dni) {
+                console.log(element + " " + dni);
+                title =  elemento.title;
+            }
+        });
+    });
+    return title;
+
+}
 let persona1 = new persona("Pablo", "Fernández", "López", 21, "4907191J");
 let persona2 = new persona("Rafa", "Carrasco", "Perez", 32, "50833192A");
 let persona3 = new persona("Dani", "Marquez", "Tolosa", 24, "59473736B");
@@ -52,12 +80,14 @@ function table() {
             var newCell3 = newRow.insertCell();
             var newCell4 = newRow.insertCell();
             var newCell5 = newRow.insertCell();
+            var newCell7 = newRow.insertCell();
             var newCell6 = newRow.insertCell();
             newCell0.appendChild(document.createTextNode(arrayPersonas[i].nombrePersona));
             newCell2.appendChild(document.createTextNode(arrayPersonas[i].apellidoPersona));
             newCell3.appendChild(document.createTextNode(arrayPersonas[i].apellidoPersona2));
             newCell4.appendChild(document.createTextNode(arrayPersonas[i].edadPersona));
             newCell5.appendChild(document.createTextNode(arrayPersonas[i].dniPersona));
+            newCell7.appendChild(document.createTextNode(eventsPrint(arrayPersonas[i].dniPersona)));
             newCell6.insertAdjacentHTML(
                 "beforeend",
                 "<input onclick='updateUsuario(this.name)' type='button' class='button btn btn-secondary boton' value='Editar' name= " + arrayPersonas[i].dniPersona + ">",
@@ -71,7 +101,21 @@ function table() {
         swal("ERROR", error, "error");
     }
 }
+let evento1 = new Evento(new Array("4907191J", "50833192A"), "LIMPIAR PC", dateParser("04", "01", "2021", "02:23:43"), dateParser("07", "03", "2021", "02:23:43"));
+let evento2 = new Evento(new Array("59473736B"), "PASTA TÉRMICA", dateParser("06", "04", "2021", "02:23:43"), dateParser("07", "01", "2021", "02:23:43"));
+let evento3 = new Evento(new Array("4907191J", "59473736B"), "CAMBIAR PLACA BASE", dateParser("1", "04", "2021", "02:23:43"), dateParser("1", "09", "2021", "02:23:43"));
+var eventos = new Array(evento1, evento2, evento3);
 
+function actualizarOptionsEvents() {
+    select = document.getElementById('selectOptions');
+    for (let i = 0; i < eventos.length; i++) {
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.innerHTML = eventos[i].title;
+        select.appendChild(opt);
+    }
+}
+actualizarOptionsEvents();
 function limpiarTable() {
     try {
         tbodyRef.innerHTML = "";
@@ -84,6 +128,12 @@ function insertUsuario() {
     try {
         if (document.getElementById('dni').value != "" && document.getElementById('nombre').value != "") {
             let persona1 = new persona(document.getElementById('nombre').value, document.getElementById('apellido').value, document.getElementById('apellido2').value, document.getElementById('edad').value, document.getElementById('dni').value);
+            if ($('#selectOptions').select2('data') != "") {
+                d = $('#selectOptions').select2('data');
+                for (let i = 0; i < d.length; i++) {
+                    eventos[d[i].id].id.push(document.getElementById('dni').value);
+                }
+            }
             arrayPersonas.push(persona1);
             swal("Insertado " + document.getElementById('nombre').value, "Se ha insertado con exito", "success");
         }
@@ -164,3 +214,8 @@ function actualizarUsuario() {
 }
 document.getElementById("actualizarUser").addEventListener('click', actualizarUsuario);
 table();
+
+$(document).ready(function () {
+    $(".country").select2({
+    });
+});
