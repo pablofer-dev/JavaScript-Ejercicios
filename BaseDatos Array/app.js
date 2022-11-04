@@ -55,15 +55,15 @@ class persona {
     }
 }
 function eventsPrint(dni) {
+    eventsPrintTitle = new Array();
     eventos.forEach(elemento => {
         elemento.id.forEach(element => {
             if (element == dni) {
-                console.log(element + " " + dni);
-                title =  elemento.title;
+                eventsPrintTitle.push(elemento.title);
             }
         });
     });
-    return title;
+    return eventsPrintTitle;
 
 }
 let persona1 = new persona("Pablo", "Fernández", "López", 21, "4907191J");
@@ -123,10 +123,18 @@ function limpiarTable() {
         swal("ERROR", error, "error");
     }
 }
+function existeDni(dni2) {
+    for (let i = 0; i < arrayPersonas.length; i++) {
+        if (dni2 == arrayPersonas[i].dni) {
+            return true;
+        }
+    }
+    return false;
 
+}
 function insertUsuario() {
     try {
-        if (document.getElementById('dni').value != "" && document.getElementById('nombre').value != "") {
+        if (document.getElementById('dni').value != "" && document.getElementById('nombre').value != "" && existeDni(document.getElementById('dni').value) != true) {
             let persona1 = new persona(document.getElementById('nombre').value, document.getElementById('apellido').value, document.getElementById('apellido2').value, document.getElementById('edad').value, document.getElementById('dni').value);
             if ($('#selectOptions').select2('data') != "") {
                 d = $('#selectOptions').select2('data');
@@ -189,6 +197,7 @@ function updateUsuario(x) {
         swal("ERROR", error, "error");
     }
 }
+
 function actualizarUsuario() {
     try {
         if (document.getElementById("nombreUpdate").value != "") {
