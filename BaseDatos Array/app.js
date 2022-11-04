@@ -123,7 +123,7 @@ function limpiarTable() {
         swal("ERROR", error, "error");
     }
 }
-function existeDni(dni2) {
+function comprobacionDni(dni2) {
     for (let i = 0; i < arrayPersonas.length; i++) {
         if (dni2 == arrayPersonas[i].dni) {
             return true;
@@ -134,7 +134,7 @@ function existeDni(dni2) {
 }
 function insertUsuario() {
     try {
-        if (document.getElementById('dni').value != "" && document.getElementById('nombre').value != "" && existeDni(document.getElementById('dni').value) != true) {
+        if (document.getElementById('dni').value != "" && document.getElementById('nombre').value != "" && comprobacionDni(document.getElementById('dni').value) != true) {
             let persona1 = new persona(document.getElementById('nombre').value, document.getElementById('apellido').value, document.getElementById('apellido2').value, document.getElementById('edad').value, document.getElementById('dni').value);
             if ($('#selectOptions').select2('data') != "") {
                 d = $('#selectOptions').select2('data');
