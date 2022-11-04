@@ -295,12 +295,14 @@ table();
 $(document).ready(function () {
     $(".country").select2({
         placeholder: "Selecciona evento",
-        allowClear: true
+        allowClear: true,
+        dropdownCssClass: "Montserrat"
     });
 });
 $(document).ready(function () {
     $(".country2").select2({
         placeholder: "Selecciona evento",
-        allowClear: true
+        allowClear: true,
+        dropdownCssClass: "Montserrat"
     });
 });
