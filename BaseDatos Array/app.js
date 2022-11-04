@@ -241,6 +241,21 @@ function actualizarUsuario() {
             $("#selectOptions2").select2('data').forEach(element => {
                 actualizarEvents.push(element.text);
             });
+            /* Eliminar select2 a dni */
+
+            eventos.forEach(element => {
+                let filteredArray = element.id.filter(function (e) { return e !== x })
+                element.id = filteredArray;
+            });
+            /* Añadir eventos*/
+            for (let j = 0; j < eventos.length; j++) {
+                for (let i = 0; i < actualizarEvents.length; i++) {
+                    if (actualizarEvents[i] == eventos[j].title) {
+                        eventos[j].id.push(x)
+                    }
+                }
+            }
+            console.log(eventos);
             document.getElementById("updateUsuario").style.display = "none";
             limpiarTable();
             table();
