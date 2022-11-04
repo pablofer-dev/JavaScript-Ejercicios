@@ -23,19 +23,23 @@
 
 <body>
 
-    <div class="container d-flex text-center justify-content-center align-middle gap-5">
+    <div class="container mt-3 d-flex text-center justify-content-center align-middle gap-5">
         <div class="tabla">
-            <h2 class="text-center">USUARIOS</h2>
             <table id="myTable">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Apellido2</th>
-                        <th>Edad</th>
-                        <th>Dni</th>
-                        <th>Evento</th>
-                        <th>Editar Usuario</th>
+                        <td class="tabletrue" colspan="7">
+                            <h1>USUARIOS</h1>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>NOMBRE</th>
+                        <th>APELLIDO</th>
+                        <th>APELLIDO2</th>
+                        <th>EDAD</th>
+                        <th>DNI</th>
+                        <th>EVENTO</th>
+                        <th>EDITAR USUARIO</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,15 +47,21 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td><input type="text" class="form-control" id="nombre" placeholder="Nombre"></td>
-                        <td><input type="text" class="form-control" id="apellido" placeholder="Apellido"></td>
-                        <td><input type="text" class="form-control" id="apellido2" placeholder="Segundo Apellido"></td>
-                        <td><input type="number" min="0" class="form-control" id="edad" placeholder="Edad"></td>
-                        <td><input type="text" class="form-control" id="dni" placeholder="Dni"></td>
-                        <td><select class="country" form-control multiple="true" style="width: 100%; height: 100%;"
-                                id="selectOptions">
+                        <td class="color2"><input type="text" class="form-control color3" id="nombre"
+                                placeholder="Nombre"></td>
+                        <td class="color2"><input type="text" class="form-control color3" id="apellido"
+                                placeholder="Apellido"></td>
+                        <td class="color2"><input type="text" class="form-control color3" id="apellido2"
+                                placeholder="Segundo Apellido"></td>
+                        <td class="color2"><input type="number" min="0" class="form-control color3" id="edad"
+                                placeholder="Edad"></td>
+                        <td class="color2"><input type="text" class="form-control color3" id="dni" placeholder="Dni">
+                        </td>
+                        <td class="color2"><select class="country" form-control multiple="true"
+                                style="width: 100%; height: 100%;" id="selectOptions">
                             </select></td>
-                        <td><button onclick="insertUsuario()" type="button" class="btn btn-primary">Añadir
+                        <td class="color2"><button onclick="insertUsuario()" type="button"
+                                class="btn btn-primary">Añadir
                                 Usuario</button></td>
                     </tr>
                 </tfoot>
@@ -65,41 +75,38 @@
 
     <div class="d-flex ">
         <div class="container mt-3 " id="updateUsuario">
-            <h1 class="text-center">Update Usuario</h1>
-            <div class="row">
-                <div class="col">
-                    <input type="text" class="form-control" id="nombreUpdate" name="nombreUpdate" placeholder="Nombre">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" id="apellidoUpdate" name="apellidoUpdate"
-                        placeholder="Apellido">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" id="apellido2Update" name="apellido2Update"
-                        placeholder="Segundo Apellido">
-                </div>
-    
-            </div>
-            <div class="row  mt-4">
-                <div class="col">
-                    <input type="number" min="0" class="form-control" id="edadUpdate" name="edadUpdate" placeholder="Edad">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" name="dniUpdate" id="dniUpdate" readonly placeholder="Dni">
-                </div>
-                <div class="col">
-                    <select class="country2" form-control multiple="true" style="width: 100%; height: 100%;"
-                        id="selectOptions2">
-                    </select>
-                </div>
-                <div class="d-flex justify-content-center mt-3">
-                    <button id="actualizarUser" type="button" class="btn btn-primary">Update usuario</button>
-                </div>
-            </div>
-    
+            <table class="mx-auto">
+                <tr>
+                    <td class="tablefalse fs-5" colspan="3">
+                        <h1 class="text-center">Update Usario</h1>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td class="tabletrue"><input type="text" class="form-control" id="nombreUpdate" name="nombreUpdate"
+                            placeholder="Nombre"></td>
+                    <td class="tabletrue"><input type="text" class="form-control" id="apellidoUpdate"
+                            name="apellidoUpdate" placeholder="Apellido"></td>
+                    <td class="tabletrue"><input type="text" class="form-control" id="apellido2Update"
+                            name="apellido2Update" placeholder="Segundo Apellido"></td>
+                </tr>
+                <tr>
+                    <td class="tablefalse"><input type="number" min="0" class="form-control" id="edadUpdate"
+                            name="edadUpdate" placeholder="Edad"></td>
+                    <td class="tablefalse"><input type="text" class="form-control" name="dniUpdate" id="dniUpdate"
+                            readonly placeholder="Dni"></td>
+                    <td class="tablefalse2"><select class="country2" form-control multiple="true"
+                            style="width: 100%; height: 100%; color: black;" id="selectOptions2">
+                        </select></td>
+                </tr>
+                <tr>
+                    <td class="tablefalse text-center" colspan="3"><button id="actualizarUser" type="button" class="btn btn-primary">Update usuario</button></td>
+                </tr>
+            </table>
+
         </div>
     </div>
-    
+
     </div>
 
 

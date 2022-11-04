@@ -72,6 +72,7 @@ var arrayPersonas = new Array(persona1, persona2, persona3);
 function table() {
     try {
         for (let i = 0; i < arrayPersonas.length; i++) {
+            flag = false;
             var newRow = tbodyRef.insertRow(-1);
             var newCell0 = newRow.insertCell();
             var newCell2 = newRow.insertCell();
@@ -86,6 +87,13 @@ function table() {
             newCell4.appendChild(document.createTextNode(arrayPersonas[i].edadPersona));
             newCell5.appendChild(document.createTextNode(arrayPersonas[i].dniPersona));
             newCell7.appendChild(document.createTextNode(eventsPrint(arrayPersonas[i].dniPersona)));
+            newCell0.className = "table" + parImpar(i);
+            newCell2.className = "table" + parImpar(i);
+            newCell3.className = "table" + parImpar(i);
+            newCell4.className = "table" + parImpar(i);
+            newCell5.className = "table" + parImpar(i);
+            newCell7.className = "table" + parImpar(i);
+            newCell6.className = "color2"
             newCell6.insertAdjacentHTML(
                 "beforeend",
                 "<input onclick='updateUsuario(this.name)' type='button' class='button btn btn-secondary boton' value='Editar' name= " + arrayPersonas[i].dniPersona + ">",
@@ -97,6 +105,14 @@ function table() {
         }
     } catch (error) {
         swal("ERROR", error, "error");
+    }
+}
+function parImpar(numero) {
+    if (numero % 2 == 0) {
+        return true;
+    }
+    else {
+        return false;
     }
 }
 let evento1 = new Evento(new Array("4907191J", "50833192A"), "LIMPIAR PC", dateParser("04", "01", "2021", "02:23:43"), dateParser("07", "03", "2021", "02:23:43"));
@@ -127,7 +143,6 @@ function comprobacionDni(dni2) {
         }
     }
     return false;
-
 }
 function insertUsuario() {
     try {
@@ -141,6 +156,12 @@ function insertUsuario() {
             }
             arrayPersonas.push(persona1);
             swal("Insertado " + document.getElementById('nombre').value, "Se ha insertado con exito", "success");
+            document.getElementById('dni').value = "";
+            document.getElementById('nombre').value = "";
+            document.getElementById('apellido2').value = "";
+            document.getElementById('apellido').value = "";
+            document.getElementById('edad').value = "";
+            $('#selectOptions').val(null).trigger('change');
         }
         else if (document.getElementById('dni').value == "") {
             swal("ERROR", "No se puede insertar con un dni vacio", "error");
@@ -241,8 +262,8 @@ function actualizarUsuario() {
             $("#selectOptions2").select2('data').forEach(element => {
                 actualizarEvents.push(element.text);
             });
-            /* Eliminar select2 a dni */
 
+            /* Eliminar select2 a dni */
             eventos.forEach(element => {
                 let filteredArray = element.id.filter(function (e) { return e !== x })
                 element.id = filteredArray;
@@ -255,7 +276,6 @@ function actualizarUsuario() {
                     }
                 }
             }
-            console.log(eventos);
             document.getElementById("updateUsuario").style.display = "none";
             limpiarTable();
             table();
@@ -274,9 +294,13 @@ table();
 
 $(document).ready(function () {
     $(".country").select2({
+        placeholder: "Selecciona evento",
+        allowClear: true
     });
 });
 $(document).ready(function () {
     $(".country2").select2({
+        placeholder: "Selecciona evento",
+        allowClear: true
     });
 });
