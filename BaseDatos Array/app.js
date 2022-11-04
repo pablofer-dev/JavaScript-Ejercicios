@@ -64,7 +64,6 @@ function eventsPrint(dni) {
         });
     });
     return eventsPrintTitle;
-
 }
 let persona1 = new persona("Pablo", "Fernández", "López", 21, "4907191J");
 let persona2 = new persona("Rafa", "Carrasco", "Perez", 32, "50833192A");
@@ -115,7 +114,6 @@ function actualizarOptionsEvents() {
         select.appendChild(opt);
     }
 }
-actualizarOptionsEvents();
 function limpiarTable() {
     try {
         tbodyRef.innerHTML = "";
@@ -183,8 +181,14 @@ var x = "";
 function xSet(x) {
     this.x = x;
 }
+var eventsUser = new Array();
+var eventsUserAll = new Array();
 function updateUsuario(x) {
     try {
+        eventsUser = [];
+        eventsUserAll = [];
+        let select = document.getElementById('selectOptions2');
+        select.innerHTML = "";
         this.xSet(x);
         let personaUpdate = arrayPersonas.filter(person => person.dni == x);
         document.getElementById("updateUsuario").style.display = "block";
@@ -193,13 +197,32 @@ function updateUsuario(x) {
         apellido2Tabla = document.getElementsByName('apellido2Update')[0].value = personaUpdate[0].apellido2;
         edadTabla = document.getElementsByName('edadUpdate')[0].value = personaUpdate[0].edad;
         dniTabla = document.getElementsByName('dniUpdate')[0].value = personaUpdate[0].dni;
+        for (let i = 0; i < eventsPrint(x).length; i++) {
+            var opt = document.createElement('option');
+            opt.setAttribute("selected", true);
+            opt.innerHTML = eventsPrint(x)[i];
+            eventsUser.push(eventsPrint(x)[i]);
+            select.appendChild(opt);
+        }
+        for (let j = 0; j < eventos.length; j++) {
+            eventsUserAll.push(eventos[j].title);
+        }
+        const similar = (arr, values) => arr.filter(x => !values.includes(x));
+        const similar2 = similar(eventsUserAll, eventsUser);
+        similar2.forEach(element => {
+            var opt2 = document.createElement('option');
+            opt2.innerHTML = element;
+            select.appendChild(opt2);
+        });
+
     } catch (error) {
         swal("ERROR", error, "error");
     }
 }
-
+var actualizarEvents = new Array();
 function actualizarUsuario() {
     try {
+        actualizarEvents = [];
         if (document.getElementById("nombreUpdate").value != "") {
             let nombre = document.getElementById("nombreUpdate").value;
             let apellido = document.getElementById("apellidoUpdate").value;
@@ -209,6 +232,9 @@ function actualizarUsuario() {
             arrayPersonas = arrayPersonas.filter(person => person.dni != x);
             let persona2 = new persona(nombre, apellido, apellido2, edad, dni);
             arrayPersonas.push(persona2);
+            $("#selectOptions2").select2('data').forEach(element => {
+                actualizarEvents.push(element.text);
+            });
             document.getElementById("updateUsuario").style.display = "none";
             limpiarTable();
             table();
@@ -221,10 +247,15 @@ function actualizarUsuario() {
         swal("ERROR", error, "error");
     }
 }
+actualizarOptionsEvents();
 document.getElementById("actualizarUser").addEventListener('click', actualizarUsuario);
 table();
 
 $(document).ready(function () {
     $(".country").select2({
+    });
+});
+$(document).ready(function () {
+    $(".country2").select2({
     });
 });
