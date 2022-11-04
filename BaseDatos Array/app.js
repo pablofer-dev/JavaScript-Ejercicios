@@ -104,7 +104,7 @@ let evento1 = new Evento(new Array("4907191J", "50833192A"), "LIMPIAR PC", dateP
 let evento2 = new Evento(new Array("59473736B"), "PASTA TÉRMICA", dateParser("06", "04", "2021", "02:23:43"), dateParser("07", "01", "2021", "02:23:43"));
 let evento3 = new Evento(new Array("4907191J", "59473736B"), "CAMBIAR PLACA BASE", dateParser("1", "04", "2021", "02:23:43"), dateParser("1", "09", "2021", "02:23:43"));
 var eventos = new Array(evento1, evento2, evento3);
-
+console.log(eventos);
 function actualizarOptionsEvents() {
     select = document.getElementById('selectOptions');
     for (let i = 0; i < eventos.length; i++) {
@@ -159,13 +159,19 @@ function insertUsuario() {
     }
 }
 function eliminarUsuario(x) {
+
     try {
         if (x != "" || x != null) {
+            eventos.forEach(element => {
+                let filteredArray = element.id.filter(function (e) { return e !== x })
+                element.id = filteredArray;
+            });
             arrayPersonas.forEach(element => {
                 if (element.dniPersona == x) {
                     arrayPersonas = arrayPersonas.filter(person => person.dni != x);
                 }
             });
+            console.log(eventos);
             swal("Eliminado " + "DNI: " + x, "Se ha eliminado con exito", "success");
         }
         else {
@@ -177,6 +183,8 @@ function eliminarUsuario(x) {
         swal("ERROR", error, "error");
     }
 }
+
+
 var x = "";
 function xSet(x) {
     this.x = x;
