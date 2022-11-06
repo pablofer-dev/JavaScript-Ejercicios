@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+:root {
+    --color-black: black;
+    --color-blue: rgb(162, 162, 231);
+    --color-white: white;
+}
+
+html {
+    font-size: 62.5%;
+}
+.colorContainer {
+    height: 50vh;
+}
+body {
+    margin: 0px;
+    font-size: 16px;
+}
+.colorContainer {
+    background-color: rgb(39, 38, 38);
+}
+
+.nav-links,
+.links {
+    list-style: none;
+    text-decoration: none;
+    color: var(--color-black);
+    letter-spacing: 0.5rem;
+    font-weight: 500
+}
+.btn-hero {
+    border: 0.1rem solid gray;
+    padding: 1rem 3rem 1rem 3rem;
+    border-radius: 0.7rem;
+    transition: all 0.3s ease-in-out;
+    font-weight: 500;
+}
+.btn-hero:hover {
+    background-color: rgba(26, 25, 25, 0.952);
+    color: aliceblue;
+    border: 0.1rem solid rgb(218, 216, 216);
+}
+.textoColor {
+    color: var(--color-white);
+}
+.title {
+    color: var(--color-blue);
+    letter-spacing: 0.3rem;
+    font-weight: 600;
+    font-size: 2rem;
+
+}
+.colorValue {
+    letter-spacing: 0.3rem;
+    color: rgb(14, 168, 168);
+}
+
+.nav-center {
+    border-bottom: 0.1rem solid rgb(162, 162, 231);
+    background-color: aliceblue;
+}
