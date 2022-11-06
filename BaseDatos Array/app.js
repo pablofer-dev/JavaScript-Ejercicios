@@ -1,3 +1,4 @@
+document.body.style.backgroundColor = "#5BB9B8";
 function dateParser(dia, mes, anio, hora) {
     let fecha = new Date(`${dia} ${mes} ${anio} ${hora}`);
     let diaSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado']
@@ -96,11 +97,11 @@ function table() {
             newCell6.className = "color2"
             newCell6.insertAdjacentHTML(
                 "beforeend",
-                "<input onclick='updateUsuario(this.name)' type='button' class='button btn btn-secondary boton' value='Editar' name= " + arrayPersonas[i].dniPersona + ">",
+                "<input onclick='updateUsuario(this.name)' type='button' class='button btn btn-secondary boton' value='Editar' id='botonDisable' name= " + arrayPersonas[i].dniPersona + ">",
             );
             newCell6.insertAdjacentHTML(
                 "beforeend",
-                "<input onclick='eliminarUsuario(this.name)' type='button' class='button btn btn-danger boton' value='Eliminar' name= " + arrayPersonas[i].dniPersona + ">",
+                "<input onclick='eliminarUsuario(this.name)' type='button' class='button btn btn-danger boton' value='Eliminar' id='botonDisable' name= " + arrayPersonas[i].dniPersona + ">",
             );
         }
     } catch (error) {
@@ -155,6 +156,7 @@ function insertUsuario() {
                 }
             }
             arrayPersonas.push(persona1);
+
             swal("Insertado " + document.getElementById('nombre').value, "Se ha insertado con exito", "success");
             document.getElementById('dni').value = "";
             document.getElementById('nombre').value = "";
@@ -179,7 +181,6 @@ function insertUsuario() {
     }
 }
 function eliminarUsuario(x) {
-
     try {
         if (x != "" || x != null) {
             eventos.forEach(element => {
@@ -190,7 +191,7 @@ function eliminarUsuario(x) {
                 if (element.dniPersona == x) {
                     arrayPersonas = arrayPersonas.filter(person => person.dni != x);
                 }
-            });
+            }); console.log(eventos);
             swal("Eliminado " + "DNI: " + x, "Se ha eliminado con exito", "success");
         }
         else {
@@ -212,6 +213,20 @@ var eventsUser = new Array();
 var eventsUserAll = new Array();
 function updateUsuario(x) {
     try {
+        document.body.style.backgroundColor = "#4d4d4d";
+        document.getElementById("myTable").style.filter = "brightness(40%)";
+        document.getElementById("myTable").style.filter = "grayscale(60%)";
+        document.getElementById("nombre").disabled = true;
+        document.getElementById("apellido").disabled = true;
+        document.getElementById("apellido2").disabled = true;
+        document.getElementById("edad").disabled = true;
+        document.getElementById("dni").disabled = true;
+        document.getElementById("selectOptions").disabled = true;
+
+        var elems = document.querySelectorAll('[id^="botonDisable"]');
+        for (var i = 0; i < elems.length; i++) {
+            elems[i].disabled = true;
+        }
         eventsUser = [];
         eventsUserAll = [];
         let select = document.getElementById('selectOptions2');
@@ -277,6 +292,20 @@ function actualizarUsuario() {
                 }
             }
             document.getElementById("updateUsuario").style.display = "none";
+            document.getElementById("myTable").style.filter = "brightness(100%)";
+            document.getElementById("myTable").style.filter = "grayscale(0%)";
+            document.getElementById("nombre").disabled = false;
+            document.getElementById("apellido").disabled = false;
+            document.getElementById("apellido2").disabled = false;
+            document.getElementById("edad").disabled = false;
+            document.getElementById("dni").disabled = false;
+            document.getElementById("selectOptions").disabled = false;
+
+            var elems = document.querySelectorAll('[id^="botonDisable"]');
+            for (var i = 0; i < elems.length; i++) {
+                elems[i].disabled = false;
+            }
+            document.body.style.backgroundColor = "#5BB9B8";
             limpiarTable();
             table();
             swal("Actualizado " + nombre, "Se ha actualizado con exito", "success");
@@ -291,7 +320,24 @@ function actualizarUsuario() {
 actualizarOptionsEvents();
 document.getElementById("actualizarUser").addEventListener('click', actualizarUsuario);
 table();
-
+function closeMenu() {
+    document.getElementById("updateUsuario").style.display = "none";
+    document.getElementById("myTable").style.filter = "brightness(100%)";
+    document.getElementById("myTable").style.filter = "grayscale(0%)";
+    document.getElementById("nombre").disabled = false;
+    document.getElementById("apellido").disabled = false;
+    document.getElementById("apellido2").disabled = false;
+    document.getElementById("edad").disabled = false;
+    document.getElementById("dni").disabled = false;
+    document.getElementById("selectOptions").disabled = false;
+    var elems = document.querySelectorAll('[id^="botonDisable"]');
+    for (var i = 0; i < elems.length; i++) {
+        elems[i].disabled = false;
+    }
+    document.body.style.backgroundColor = "#5BB9B8";
+    limpiarTable();
+    table();
+}
 $(document).ready(function () {
     $(".country").select2({
         placeholder: "Selecciona evento",
