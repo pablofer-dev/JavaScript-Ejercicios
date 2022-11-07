@@ -11,8 +11,7 @@
 }
 
 th {
-    padding: 5px;
-    padding: 0px 60px 0 60px;
+    padding: 10px 60px 10px 60px;
     background-color: #202932;
     font-weight: 700;
     color: #fff;
@@ -61,6 +60,10 @@ td {
     background-color: rgb(218, 218, 218);
     padding: 13px;
 
+}
+
+.botonInsert {
+    width: 156.344px;
 }
 
 td,

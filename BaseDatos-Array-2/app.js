@@ -69,19 +69,33 @@ let persona1 = new persona("Pablo", "Fernández", "López", 21, "4907191J");
 let persona2 = new persona("Rafa", "Carrasco", "Perez", 32, "50833192A");
 let persona3 = new persona("Dani", "Marquez", "Tolosa", 24, "59473736B");
 var tbodyRef = document.getElementById('myTable').getElementsByTagName('tbody')[0];
+var tbodyRefEvent = document.getElementById('myTable2').getElementsByTagName('tbody')[0];
 var arrayPersonas = new Array(persona1, persona2, persona3);
+function tableEvents() {
+    for (let j = 0; j < eventos.length; j++) {
+        let newRowE = tbodyRefEvent.insertRow(-1);
+        let newCellE0 = newRowE.insertCell();
+        let newCellE2 = newRowE.insertCell();
+        let newCellE3 = newRowE.insertCell();
+        let newCellE4 = newRowE.insertCell();
+        newCellE0.appendChild(document.createTextNode(eventos[j].id));
+        newCellE2.appendChild(document.createTextNode(eventos[j].title));
+        newCellE3.appendChild(document.createTextNode(eventos[j].start));
+        newCellE4.appendChild(document.createTextNode(eventos[j].end));
+    }
+}
+
 function table() {
     try {
         for (let i = 0; i < arrayPersonas.length; i++) {
-            flag = false;
-            var newRow = tbodyRef.insertRow(-1);
-            var newCell0 = newRow.insertCell();
-            var newCell2 = newRow.insertCell();
-            var newCell3 = newRow.insertCell();
-            var newCell4 = newRow.insertCell();
-            var newCell5 = newRow.insertCell();
-            var newCell7 = newRow.insertCell();
-            var newCell6 = newRow.insertCell();
+            let newRow = tbodyRef.insertRow(-1);
+            let newCell0 = newRow.insertCell();
+            let newCell2 = newRow.insertCell();
+            let newCell3 = newRow.insertCell();
+            let newCell4 = newRow.insertCell();
+            let newCell5 = newRow.insertCell();
+            let newCell7 = newRow.insertCell();
+            let newCell6 = newRow.insertCell();
             newCell0.appendChild(document.createTextNode(arrayPersonas[i].nombrePersona));
             newCell2.appendChild(document.createTextNode(arrayPersonas[i].apellidoPersona));
             newCell3.appendChild(document.createTextNode(arrayPersonas[i].apellidoPersona2));
@@ -240,7 +254,7 @@ function updateUsuario(x) {
         edadTabla = document.getElementsByName('edadUpdate')[0].value = personaUpdate[0].edad;
         dniTabla = document.getElementsByName('dniUpdate')[0].value = personaUpdate[0].dni;
         for (let i = 0; i < eventsPrint(x).length; i++) {
-            var opt = document.createElement('option');
+            let opt = document.createElement('option');
             opt.setAttribute("selected", true);
             opt.innerHTML = eventsPrint(x)[i];
             eventsUser.push(eventsPrint(x)[i]);
@@ -318,8 +332,32 @@ function actualizarUsuario() {
     }
 }
 actualizarOptionsEvents();
+
+document.getElementById("eventoAñadir").addEventListener('click', () => {
+    let select = document.getElementById('selectOptions3');
+    for (let i = 0; i < arrayPersonas.length; i++) {
+        let opt = document.createElement('option');
+        opt.innerHTML = arrayPersonas[i].dni;
+        select.appendChild(opt);
+    }
+});
+
 document.getElementById("actualizarUser").addEventListener('click', actualizarUsuario);
+
+document.getElementById("insertEvent").addEventListener('click', () => {
+    try {
+        if (document.getElementById("idEvent").value != "" && document.getElementById("titleEvent").value != "" && document.getElementById("dateSEvent").value != "" && document.getElementById("dateEEvent").value != "") {
+
+        }
+        else {
+            console.log("error");
+        }
+    } catch (error) {
+
+    }
+});
 table();
+tableEvents();
 function closeMenu() {
     document.getElementById("updateUsuario").style.display = "none";
     document.getElementById("myTable").style.filter = "brightness(100%)";
@@ -338,6 +376,7 @@ function closeMenu() {
     limpiarTable();
     table();
 }
+
 $(document).ready(function () {
     $(".country").select2({
         placeholder: "Selecciona evento",
@@ -348,6 +387,13 @@ $(document).ready(function () {
 $(document).ready(function () {
     $(".country2").select2({
         placeholder: "Selecciona evento",
+        allowClear: true,
+        dropdownCssClass: "Montserrat"
+    });
+});
+$(document).ready(function () {
+    $(".country3").select2({
+        placeholder: "Seleccionar dni",
         allowClear: true,
         dropdownCssClass: "Montserrat"
     });
