@@ -346,14 +346,14 @@ document.getElementById("actualizarUser").addEventListener('click', actualizarUs
 
 document.getElementById("insertEvent").addEventListener('click', () => {
     try {
-        if (document.getElementById("idEvent").value != "" && document.getElementById("titleEvent").value != "" && document.getElementById("dateSEvent").value != "" && document.getElementById("dateEEvent").value != "") {
-
+        if (document.getElementById("titleEvent").value != "" && document.getElementById("dateSEvent").value != "" && document.getElementById("dateEEvent").value != "") {
+            console.log(document.getElementById("dateSEvent").value);
         }
         else {
-            console.log("error");
+            swal("ERROR", error, "Campos vacios al insertar evento");
         }
     } catch (error) {
-
+        swal("ERROR", error, error);
     }
 });
 table();
