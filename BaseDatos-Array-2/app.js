@@ -217,7 +217,6 @@ function eliminarUsuario(x) {
     }
 }
 
-
 var x = "";
 function xSet(x) {
     this.x = x;
@@ -333,6 +332,16 @@ function actualizarUsuario() {
 actualizarOptionsEvents();
 
 document.getElementById("eventoAñadir").addEventListener('click', () => {
+    document.getElementById("nombre").disabled = true;
+    document.getElementById("apellido").disabled = true;
+    document.getElementById("apellido2").disabled = true;
+    document.getElementById("edad").disabled = true;
+    document.getElementById("dni").disabled = true;
+    document.getElementById("selectOptions").disabled = true;
+    var elems = document.querySelectorAll('[id^="botonDisable"]');
+    for (var i = 0; i < elems.length; i++) {
+        elems[i].disabled = true;
+    }
     document.body.style.backgroundColor = "#4d4d4d";
     document.getElementById('selectOptions3').innerHTML = "";
     document.getElementById("myTable2").style.display = "block";
@@ -387,6 +396,7 @@ document.getElementById("insertEvent").addEventListener('click', () => {
                     eventos.push(new Evento(eventosInsert, document.getElementById("titleEvent").value, dateStart, dateEnd));
                     actualizarOptionsEvents()
                     tableEvents()
+
                 }
                 else if (flag == true) {
                     swal("ERROR", "Este evento ya existe", "error");
@@ -404,7 +414,6 @@ document.getElementById("insertEvent").addEventListener('click', () => {
 table();
 tableEvents();
 function closeMenu() {
-
     document.getElementById("updateUsuario").style.display = "none";
     document.getElementById("myTable2").style.display = "none";
     document.getElementById("myTable").style.filter = "brightness(100%)";

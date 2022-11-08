@@ -5,14 +5,18 @@
     font-size: 13px;
     text-decoration: none !important;
 }
-#myTable2{
+
+#myTable2 {
     display: none;
 }
+
 .select2-selection__choice__display {
     color: black;
     font-weight: initial;
 }
-th,.tablainsert {
+
+th,
+.tablainsert {
     padding: 10px 60px 10px 60px;
     background-color: #202932;
     font-weight: 700;
@@ -43,7 +47,10 @@ th,.tablainsert {
     color: #fff;
 }
 
-input:focus {outline:none!important;}
+input:focus {
+    outline: none !important;
+}
+
 input {
     background-color: rgb(255, 255, 255);
     border: 0px solid;
