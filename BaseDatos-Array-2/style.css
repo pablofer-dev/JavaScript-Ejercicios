@@ -5,12 +5,14 @@
     font-size: 13px;
     text-decoration: none !important;
 }
-
-.tabla {
-    overflow: auto;
+#myTable2{
+    display: none;
 }
-
-th {
+.select2-selection__choice__display {
+    color: black;
+    font-weight: initial;
+}
+th,.tablainsert {
     padding: 10px 60px 10px 60px;
     background-color: #202932;
     font-weight: 700;
@@ -41,8 +43,14 @@ th {
     color: #fff;
 }
 
+input:focus {outline:none!important;}
 input {
+    background-color: rgb(255, 255, 255);
+    border: 0px solid;
     height: 30px;
+    width: 160px;
+    color: #CCC;
+    border-radius: 5px;
 }
 
 .tablefalse {

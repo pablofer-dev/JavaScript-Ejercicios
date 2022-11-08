@@ -1,11 +1,4 @@
 document.body.style.backgroundColor = "#5BB9B8";
-function dateParser(dia, mes, anio, hora) {
-    let fecha = new Date(`${dia} ${mes} ${anio} ${hora}`);
-    let diaSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado']
-    let mesAnio = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    return date = (`${diaSemana[fecha.getDay()]}, ${fecha.getDate()} ${mesAnio[fecha.getMonth()]} ${fecha.getFullYear()} ${fecha.getHours()}:${fecha.getMinutes()}:${fecha.getSeconds()}`);
-}
-
 class Evento {
     constructor(id, title, start, end) {
         this.id = id;
@@ -72,6 +65,7 @@ var tbodyRef = document.getElementById('myTable').getElementsByTagName('tbody')[
 var tbodyRefEvent = document.getElementById('myTable2').getElementsByTagName('tbody')[0];
 var arrayPersonas = new Array(persona1, persona2, persona3);
 function tableEvents() {
+    tbodyRefEvent.innerHTML = "";
     for (let j = 0; j < eventos.length; j++) {
         let newRowE = tbodyRefEvent.insertRow(-1);
         let newCellE0 = newRowE.insertCell();
@@ -82,6 +76,10 @@ function tableEvents() {
         newCellE2.appendChild(document.createTextNode(eventos[j].title));
         newCellE3.appendChild(document.createTextNode(eventos[j].start));
         newCellE4.appendChild(document.createTextNode(eventos[j].end));
+        newCellE0.className = "table" + parImpar(j);
+        newCellE2.className = "table" + parImpar(j);
+        newCellE3.className = "table" + parImpar(j);
+        newCellE4.className = "table" + parImpar(j);
     }
 }
 
@@ -130,12 +128,13 @@ function parImpar(numero) {
         return false;
     }
 }
-let evento1 = new Evento(new Array("4907191J", "50833192A"), "LIMPIAR PC", dateParser("04", "01", "2021", "02:23:43"), dateParser("07", "03", "2021", "02:23:43"));
-let evento2 = new Evento(new Array("59473736B"), "PASTA TÉRMICA", dateParser("06", "04", "2021", "02:23:43"), dateParser("07", "01", "2021", "02:23:43"));
-let evento3 = new Evento(new Array("4907191J", "59473736B"), "CAMBIAR PLACA BASE", dateParser("1", "04", "2021", "02:23:43"), dateParser("1", "09", "2021", "02:23:43"));
+let evento1 = new Evento(new Array("4907191J", "50833192A"), "LIMPIAR PC", dateParser("04", "01", "2021"), dateParser("07", "03", "2021"));
+let evento2 = new Evento(new Array("59473736B"), "PASTA TÉRMICA", dateParser("06", "04", "2021"), dateParser("07", "01", "2021"));
+let evento3 = new Evento(new Array("4907191J", "59473736B"), "CAMBIAR PLACA BASE", dateParser("1", "04", "2021"), dateParser("1", "09", "2021"));
 var eventos = new Array(evento1, evento2, evento3);
 
 function actualizarOptionsEvents() {
+    document.getElementById('selectOptions').innerHTML = "";
     select = document.getElementById('selectOptions');
     for (let i = 0; i < eventos.length; i++) {
         var opt = document.createElement('option');
@@ -214,7 +213,7 @@ function eliminarUsuario(x) {
         limpiarTable();
         table();
     } catch (error) {
-        swal("ERROR", error, "error");
+        swal("ERROR", "No se puede eliminar", "error");
     }
 }
 
@@ -272,7 +271,7 @@ function updateUsuario(x) {
         });
 
     } catch (error) {
-        swal("ERROR", error, "error");
+        swal("ERROR", "No se puede actualizar", "error");
     }
 }
 var actualizarEvents = new Array();
@@ -328,12 +327,17 @@ function actualizarUsuario() {
             swal("ERROR", "No se puede actualizar sino tiene nombre", "error");
         }
     } catch (error) {
-        swal("ERROR", error, "error");
+        swal("ERROR", "error");
     }
 }
 actualizarOptionsEvents();
 
 document.getElementById("eventoAñadir").addEventListener('click', () => {
+    document.body.style.backgroundColor = "#4d4d4d";
+    document.getElementById('selectOptions3').innerHTML = "";
+    document.getElementById("myTable2").style.display = "block";
+    document.getElementById("myTable").style.filter = "brightness(40%)";
+    document.getElementById("myTable").style.filter = "grayscale(60%)";
     let select = document.getElementById('selectOptions3');
     for (let i = 0; i < arrayPersonas.length; i++) {
         let opt = document.createElement('option');
@@ -344,22 +348,65 @@ document.getElementById("eventoAñadir").addEventListener('click', () => {
 
 document.getElementById("actualizarUser").addEventListener('click', actualizarUsuario);
 
+function dateParser(dia, mes, anio) {
+    let fecha = new Date(`${dia} ${mes} ${anio}`);
+    let diaSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado']
+    let mesAnio = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    return date = (`${diaSemana[fecha.getDay()]}, ${fecha.getDate()} ${mesAnio[fecha.getMonth()]} ${fecha.getFullYear()}`);
+}
 document.getElementById("insertEvent").addEventListener('click', () => {
     try {
-        if (document.getElementById("titleEvent").value != "" && document.getElementById("dateSEvent").value != "" && document.getElementById("dateEEvent").value != "") {
-            console.log(document.getElementById("dateSEvent").value);
+        let date = document.getElementById("dateSEvent").value;
+        let date2 = document.getElementById("dateEEvent").value;
+        if (document.getElementById("titleEvent").value != "" && date != '' && date2 != '') {
+            flag = false;
+            let anioS = date.slice(0, 4);
+            let mesS = date.slice(5, 7);
+            let diaS = date.slice(8, 10);
+            let dateStart = dateParser(anioS, mesS, diaS);
+            let anioE = date2.slice(0, 4);
+            let mesE = date2.slice(5, 7);
+            let diaE = date2.slice(8, 10);
+            let dateEnd = dateParser(anioE, mesE, diaE);
+            if (Date.parse(dateEnd) < Date.parse(dateStart)) {
+                swal("ERROR", "La fecha final es menor a la inicial", "error");
+            }
+            else {
+                let eventosInsert = [];
+                $("#selectOptions3").select2('data').forEach(element => {
+                    eventosInsert.push(element.text);
+                });
+                for (let i = 0; i < eventos.length; i++) {
+                    if (eventos[i].title == document.getElementById("titleEvent").value) {
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if (flag == false) {
+                    eventos.push(new Evento(eventosInsert, document.getElementById("titleEvent").value, dateStart, dateEnd));
+                    actualizarOptionsEvents()
+                    tableEvents()
+                }
+                else if (flag == true) {
+                    swal("ERROR", "Este evento ya existe", "error");
+                }
+            }
+
+        } else {
+            swal("ERROR", "Tienes campos obligatorios vacios", "error");
         }
-        else {
-            swal("ERROR", error, "Campos vacios al insertar evento");
-        }
+
     } catch (error) {
-        swal("ERROR", error, error);
+        console.log(error);
     }
 });
 table();
 tableEvents();
 function closeMenu() {
+
     document.getElementById("updateUsuario").style.display = "none";
+    document.getElementById("myTable2").style.display = "none";
     document.getElementById("myTable").style.filter = "brightness(100%)";
     document.getElementById("myTable").style.filter = "grayscale(0%)";
     document.getElementById("nombre").disabled = false;
