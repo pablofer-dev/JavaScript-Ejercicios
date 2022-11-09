@@ -10,6 +10,18 @@
     display: none;
 }
 
+#myTable {
+    display: block;
+   
+}
+
+.centered-axis-xy {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
 .select2-selection__choice__display {
     color: black;
     font-weight: initial;
@@ -63,6 +75,7 @@ input {
     background-color: #242e39;
     color: black
 }
+
 #fullcalendar {
     display: none;
 }

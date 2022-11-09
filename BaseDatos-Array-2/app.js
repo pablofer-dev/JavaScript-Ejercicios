@@ -1,4 +1,4 @@
-document.body.style.backgroundColor = "#5BB9B8";
+document.body.style.backgroundColor = "#2c3845ec";
 var CALENDAR = null;
 
 class Evento {
@@ -320,7 +320,7 @@ function actualizarUsuario() {
             for (var i = 0; i < elems.length; i++) {
                 elems[i].disabled = false;
             }
-            document.body.style.backgroundColor = "#5BB9B8";
+            document.body.style.backgroundColor = "#2c3845ec";
             limpiarTable();
             table();
             swal("Actualizado " + nombre, "Se ha actualizado con exito", "success");
@@ -431,35 +431,42 @@ function closeMenu() {
     for (var i = 0; i < elems.length; i++) {
         elems[i].disabled = false;
     }
-    document.body.style.backgroundColor = "#5BB9B8";
+    document.body.style.backgroundColor = "#2c3845ec";
     limpiarTable();
     table();
 }
 /* Calendario quitar table */
 document.getElementById('calendario').addEventListener('click', () => {
-    document.getElementById('tablaContainer').innerHTML = "";
+    document.getElementById('myTable').style.display = "none";
     document.getElementById('fullcalendar').style.display = "inherit";
     if (CALENDAR) CALENDAR.render();
 })
 /* Full calendar Scripts */
+
 
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     CALENDAR = new FullCalendar.Calendar(calendarEl, {
         height: 550,
         locale: 'es',
+        themeSystem: 'bootstrap5',
+        headerToolbar: {
+            right: 'timeGridMes,timeGridSemana,timeGridLista,myCustomButton',
+            center: 'title',
+            left: 'prev,next today'
+        },
+        initialView: "dayGridMonth",
+        navLinks: true,
+        selectable: true,
+        selectMirror: true,
         customButtons: {
             myCustomButton: {
                 text: 'Ver Tabla',
                 click: function () {
-                    alert('clicked the custom button!');
+                    document.getElementById('myTable').style.display = "inherit";
+                    document.getElementById('fullcalendar').style.display = "none";
                 }
             }
-        },
-        headerToolbar: {
-            start: 'title',
-            center: 'timeGridMes,timeGridSemana',
-            end: 'today prev,next,myCustomButton'
         },
         views: {
             timeGridMes: {
@@ -467,31 +474,135 @@ document.addEventListener('DOMContentLoaded', function () {
                 buttonText: 'Mes',
                 titleFormat: { month: 'short', day: 'numeric' }
             },
-            seeTable: {
-                text: 'Ver Tabla',
-                click: function () {
-                    alert('clicked the custom button!');
-                }
-            },
+
             timeGridSemana: {
                 type: 'dayGridWeek',
                 buttonText: 'Semana',
                 titleFormat: { month: 'short', day: 'numeric' }
+            },
+            timeGridLista: {
+                type: 'listWeek',
+                buttonText: 'Lista'
+
             }
         },
+        select: function (arg) {
+            Swal.fire({
+                html: "<div class='mb-7'>¿Crear nuevo evento?</div><div class='fw-bold mb-5'>Nombre del evento:</div><input type='text' class='form-control' name='event_name' />",
+                icon: "info",
+                showCancelButton: true,
+                buttonsStyling: false,
+                confirmButtonText: "Enviar Evento",
+                cancelButtonText: "Volver",
+                customClass: {
+                    confirmButton: "btn btn-primary",
+                    cancelButton: "btn btn-active-light"
+                }
+            }).then(function (result) {
+                if (result.value) {
+                    var title = document.querySelector("input[name='event_name']").value;
+                    if (title) {
+                        console.log(title);
+                        CALENDAR.addEvent({
+                            title: title,
+                            start: arg.start,
+                            end: arg.end,
+                            allDay: arg.allDay
+                        })
+                    }
+                    CALENDAR.unselect()
+                }
+            });
+        },
+
+        // Delete event
+        eventClick: function (arg) {
+            Swal.fire({
+                text: "¿Estas seguro que quieres eliminar?",
+                icon: "warning",
+                showCancelButton: true,
+                buttonsStyling: false,
+                confirmButtonText: "Sí, borrarlo",
+                cancelButtonText: "No, return",
+                customClass: {
+                    confirmButton: "btn btn-primary",
+                    cancelButton: "btn btn-active-light"
+                }
+            }).then(function (result) {
+                if (result.value) {
+                    arg.event.remove()
+                } else if (result.dismiss === "cancel") {
+                    Swal.fire({
+                        text: "Event was not deleted!.",
+                        icon: "error",
+                        buttonsStyling: false,
+                        confirmButtonText: "Ok, got it!",
+                        customClass: {
+                            confirmButton: "btn btn-primary",
+                        }
+                    });
+                }
+            });
+        },
         editable: true,
-        draggable: true,
-        initialView: 'listWeek',
+        dayMaxEvents: true, // allow "more" link when too many events
         events: [
-            { id: "1", title: "Evento 1", start: '2022-11-10 12:10', end: '2022-11-12 13:00', personas: ["FULANO", "MENGANO", "Alberto"] },],
-        eventContent: function (arg) {
-            let HTML = arg.event.title;
-            HTML += "<ol>";
-            HTML += "</ol>";
-            return { html: HTML }
-        }
+            {
+                title: "All Day Event",
+                start: "2022-11-01"
+            },
+            {
+                title: "Long Event",
+                start: "2022-11-07",
+                end: "2022-11-10"
+            },
+            {
+                groupId: 999,
+                title: "Repeating Event",
+                start: "2022-11-11T16:00:00"
+            },
+            {
+                groupId: 999,
+                title: "Repeating Event",
+                start: "2022-11-16T16:00:00"
+            },
+            {
+                title: "Conference",
+                start: "2022-11-11",
+                end: "2022-11-13"
+            },
+            {
+                title: "Meeting",
+                start: "2022-11-12T10:30:00",
+                end: "2022-11-12T12:30:00"
+            },
+            {
+                title: "Lunch",
+                start: "2022-11-12T12:00:00"
+            },
+            {
+                title: "Meeting",
+                start: "2022-11-12T14:30:00"
+            },
+            {
+                title: "Happy Hour",
+                start: "2022-11-12T17:30:00"
+            },
+            {
+                title: "Dinner",
+                start: "2022-11-12T20:00:00"
+            },
+            {
+                title: "Birthday Party",
+                start: "2022-11-13T07:00:00"
+            },
+            {
+                title: "Click for Google",
+                url: "http://google.com/",
+                start: "2020-11-28"
+            }
+        ]
     });
-    CALENDAR.render();
 });
 $(document).ready(function () {
     $(".country").select2({
