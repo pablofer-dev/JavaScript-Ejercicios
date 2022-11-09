@@ -23,12 +23,6 @@ th,
     color: #fff;
 }
 
-.centered-axis-xy {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
 
 .color2 {
     background-color: #202932;
