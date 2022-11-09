@@ -1,4 +1,6 @@
 document.body.style.backgroundColor = "#5BB9B8";
+var CALENDAR = null;
+
 class Evento {
     constructor(id, title, start, end) {
         this.id = id;
@@ -177,6 +179,7 @@ function insertUsuario() {
             document.getElementById('apellido').value = "";
             document.getElementById('edad').value = "";
             $('#selectOptions').val(null).trigger('change');
+            getPersonasStorage()
         }
         else if (document.getElementById('dni').value == "") {
             swal("ERROR", "No se puede insertar con un dni vacio", "error");
@@ -204,7 +207,7 @@ function eliminarUsuario(x) {
                 if (element.dniPersona == x) {
                     arrayPersonas = arrayPersonas.filter(person => person.dni != x);
                 }
-            }); console.log(eventos);
+            });
             swal("Eliminado " + "DNI: " + x, "Se ha eliminado con exito", "success");
         }
         else {
@@ -432,7 +435,45 @@ function closeMenu() {
     limpiarTable();
     table();
 }
+/* Calendario quitar table */
+document.getElementById('calendario').addEventListener('click', () => {
+    document.getElementById('tablaContainer').innerHTML = "";
+    document.getElementById('fullcalendar').style.display = "inherit";
+    if (CALENDAR) CALENDAR.render();
+})
+/* Full calendar Scripts */
 
+document.addEventListener('DOMContentLoaded', function () {
+    var calendarEl = document.getElementById('calendar');
+    CALENDAR = new FullCalendar.Calendar(calendarEl, {
+        height: 550,
+        locale: 'es',
+        headerToolbar: {
+            start: 'title',
+            center: 'timeGridDia,dayGridWeek',
+            end: 'today prev,next'
+        },
+        views: {
+            timeGridDia: {
+                type: 'timeGridDay',
+                buttonText: 'Día',
+                titleFormat: { month: 'short', day: 'numeric' }
+            }
+        },
+        editable: true,
+        draggable: true,
+        initialView: 'listWeek',
+        events: [
+            { id: "1", title: "Evento 1", start: '2022-11-10 12:10', end: '2022-11-12 13:00', personas: ["FULANO", "MENGANO", "Alberto"] },],
+        eventContent: function (arg) {
+            let HTML = arg.event.title;
+            HTML += "<ol>";
+            HTML += "</ol>";
+            return { html: HTML }
+        }
+    });
+    CALENDAR.render();
+});
 $(document).ready(function () {
     $(".country").select2({
         placeholder: "Selecciona evento",
@@ -454,3 +495,16 @@ $(document).ready(function () {
         dropdownCssClass: "Montserrat"
     });
 });
+function getPersonasStorage() {
+    var personasStorage = localStorage.setItem('Personas', JSON.stringify(arrayPersonas));
+    var getPersonasStorage = localStorage.getItem('Personas');
+    console.log('Personas: ', JSON.parse(getPersonasStorage));
+}
+function getEventosStorage() {
+    var eventosStorage = localStorage.setItem('Eventos', JSON.stringify(eventos));
+    var getEventosStorage = localStorage.getItem('Eventos');
+    console.log('Eventos: ', JSON.parse(getEventosStorage));
+}
+
+
+
