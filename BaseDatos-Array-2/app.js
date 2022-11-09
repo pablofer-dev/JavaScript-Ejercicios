@@ -448,15 +448,34 @@ document.addEventListener('DOMContentLoaded', function () {
     CALENDAR = new FullCalendar.Calendar(calendarEl, {
         height: 550,
         locale: 'es',
+        customButtons: {
+            myCustomButton: {
+                text: 'Ver Tabla',
+                click: function () {
+                    alert('clicked the custom button!');
+                }
+            }
+        },
         headerToolbar: {
             start: 'title',
-            center: 'timeGridDia,dayGridWeek',
-            end: 'today prev,next'
+            center: 'timeGridMes,timeGridSemana',
+            end: 'today prev,next,myCustomButton'
         },
         views: {
-            timeGridDia: {
-                type: 'timeGridDay',
-                buttonText: 'Día',
+            timeGridMes: {
+                type: 'dayGridMonth',
+                buttonText: 'Mes',
+                titleFormat: { month: 'short', day: 'numeric' }
+            },
+            seeTable: {
+                text: 'Ver Tabla',
+                click: function () {
+                    alert('clicked the custom button!');
+                }
+            },
+            timeGridSemana: {
+                type: 'dayGridWeek',
+                buttonText: 'Semana',
                 titleFormat: { month: 'short', day: 'numeric' }
             }
         },
