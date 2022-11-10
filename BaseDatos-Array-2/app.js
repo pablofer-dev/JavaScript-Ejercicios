@@ -85,7 +85,6 @@ function tableEvents() {
         newCellE3.className = "table" + parImpar(j);
         newCellE4.className = "table" + parImpar(j);
     }
-    console.log(eventos);
 }
 
 function table() {
