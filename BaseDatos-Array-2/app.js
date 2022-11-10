@@ -421,6 +421,7 @@ document.getElementById("insertEvent").addEventListener('click', () => {
         } else {
             swal("ERROR", "Tienes campos obligatorios vacios", "error");
         }
+        closeMenu()
         actualizarOptionsEvents()
         tableEvents();
         table();
@@ -536,6 +537,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 allDay: arg.allDay
             })
             arrayEventosActualizarFullCalendar = [];
+            closeMenu();
             CALENDAR.unselect();
         },
         /* Borrar eventos */
