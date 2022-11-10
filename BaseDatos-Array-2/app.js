@@ -89,6 +89,7 @@ function tableEvents() {
 
 function table() {
     try {
+        tbodyRef.innerHTML = "";
         for (let i = 0; i < arrayPersonas.length; i++) {
             let newRow = tbodyRef.insertRow(-1);
             let newCell0 = newRow.insertCell();
@@ -353,14 +354,14 @@ function eventAdd() {
     document.getElementById("myTable").style.filter = "brightness(40%)";
     document.getElementById("myTable").style.filter = "grayscale(60%)";
     if (arrayEventosActualizarFullCalendar != "") {
-        let dateStart = moment(arrayEventosActualizarFullCalendar[0], 'MM-DD-YYYY');
-        console.log(dateStart.format('YYYY-MM-DD'));
-        let dateEnd = moment(arrayEventosActualizarFullCalendar[1], 'MM-DD-YYYY');
-        console.log(dateEnd.format('YYYY-MM-DD'));
-        document.getElementById("dateSEvent").value = dateStart.format('YYYY-MM-DD');
-        document.getElementById("dateEEvent").value = dateEnd.format('YYYY-MM-DD');
-        CALENDAR.render()
-        arrayEventosActualizarFullCalendar = []
+        let date = moment(arrayEventosActualizarFullCalendar[0], 'MM-DD-YYYY');
+        date = date.format('YYYY-MM-DD');
+        document.getElementById("dateSEvent").value = date;
+
+        let date2 = moment(arrayEventosActualizarFullCalendar[1], 'MM-DD-YYYY');
+        date2.subtract(1, 'd');
+        date2 = date2.format('YYYY-MM-DD');
+        document.getElementById("dateEEvent").value = date2;
     }
     let select = document.getElementById('selectOptions3');
     for (let i = 0; i < arrayPersonas.length; i++) {
@@ -404,12 +405,13 @@ document.getElementById("insertEvent").addEventListener('click', () => {
                         break;
                     }
                 }
+                if (arrayEventosActualizarFullCalendar != "") {
 
+                }
                 if (flag == false) {
                     eventos.push(new Evento(eventosInsert, document.getElementById("titleEvent").value, dateStart, dateEnd))
                     actualizarOptionsEvents()
                     tableEvents()
-                    console.log(eventos);
                 }
                 else if (flag == true) {
                     swal("ERROR", "Este evento ya existe", "error");
@@ -419,13 +421,14 @@ document.getElementById("insertEvent").addEventListener('click', () => {
         } else {
             swal("ERROR", "Tienes campos obligatorios vacios", "error");
         }
-
+        actualizarOptionsEvents()
+        tableEvents();
+        table();
     } catch (error) {
         console.log(error);
     }
 });
-table();
-tableEvents();
+
 function closeMenu() {
     document.getElementById("updateUsuario").style.display = "none";
     document.getElementById("myTable2").style.display = "none";
@@ -451,12 +454,33 @@ document.getElementById('calendario').addEventListener('click', () => {
     document.getElementById('fullcalendar').style.display = "inherit";
     if (CALENDAR) CALENDAR.render();
 })
-/* Full calendar Scripts */
+function removeEvent(evento) {
+    eventos = eventos.filter(eventofil => eventofil.title != evento);
+    actualizarOptionsEvents()
+    tableEvents();
+    table();
+}
+
+/* Promesa para esperar en fullCalendar cuando haga click en el event Listener */
+function waitListener() {
+    return new Promise(function (resolve, reject) {
+        var listener = event => {
+            if (arrayEventosActualizarFullCalendar != "") {
+                arrayEventosActualizarFullCalendar.push($("#selectOptions3").select2('data'));
+                arrayEventosActualizarFullCalendar.push(document.getElementById("titleEvent").value);
+                document.getElementById("dateSEvent").value = "";
+                document.getElementById("dateEEvent").value = "";
+                document.getElementById("titleEvent").value = "";
+                resolve(event);
+            }
+        };
+        document.getElementById("insertEvent").addEventListener('click', listener);
+    });
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     CALENDAR = new FullCalendar.Calendar(calendarEl, {
-
         height: 550,
         locale: 'es',
         themeSystem: 'bootstrap5',
@@ -496,12 +520,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
             }
         },
-        /* Crear Evemtos */
-        select: function (arg) {
 
+        /* Crear Evemtos */
+        select: async function (arg) {
+            arrayEventosActualizarFullCalendar = [];
             arrayEventosActualizarFullCalendar.push(arg.start);
             arrayEventosActualizarFullCalendar.push(arg.end);
             eventAdd();
+            await waitListener();
+            CALENDAR.addEvent({
+                title: arrayEventosActualizarFullCalendar[3],
+                id: arrayEventosActualizarFullCalendar[2],
+                start: arg.start,
+                end: arg.end,
+                allDay: arg.allDay
+            })
+            arrayEventosActualizarFullCalendar = [];
+            CALENDAR.unselect();
         },
         /* Borrar eventos */
         eventClick: function (arg) {
@@ -518,7 +553,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }).then(function (result) {
                 if (result.value) {
-                    arg.event.remove()
+                    arg.event.remove();
+                    removeEvent(arg.event.title);
                 }
             });
         },
@@ -569,5 +605,5 @@ function getEventosStorage() {
     console.log('Eventos: ', JSON.parse(getEventosStorage));
 }
 
-
-
+table();
+tableEvents();
