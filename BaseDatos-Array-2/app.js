@@ -69,6 +69,8 @@ var arrayPersonas = new Array(persona1, persona2, persona3);
 function tableEvents() {
     tbodyRefEvent.innerHTML = "";
     for (let j = 0; j < eventos.length; j++) {
+        let date = moment(eventos[j].start, 'YYYY-MM-DD');
+        let date2 = moment(eventos[j].end, 'YYYY-MM-DD');
         let newRowE = tbodyRefEvent.insertRow(-1);
         let newCellE0 = newRowE.insertCell();
         let newCellE2 = newRowE.insertCell();
@@ -76,13 +78,14 @@ function tableEvents() {
         let newCellE4 = newRowE.insertCell();
         newCellE0.appendChild(document.createTextNode(eventos[j].id));
         newCellE2.appendChild(document.createTextNode(eventos[j].title));
-        newCellE3.appendChild(document.createTextNode(eventos[j].start));
-        newCellE4.appendChild(document.createTextNode(eventos[j].end));
+        newCellE3.appendChild(document.createTextNode(date.format('DD-MM-YYYY')));
+        newCellE4.appendChild(document.createTextNode(date2.format('DD-MM-YYYY')));
         newCellE0.className = "table" + parImpar(j);
         newCellE2.className = "table" + parImpar(j);
         newCellE3.className = "table" + parImpar(j);
         newCellE4.className = "table" + parImpar(j);
     }
+    console.log(eventos);
 }
 
 function table() {
@@ -130,9 +133,9 @@ function parImpar(numero) {
         return false;
     }
 }
-let evento1 = new Evento(new Array("4907191J", "50833192A"), "LIMPIAR PC", dateParser("04", "01", "2021"), dateParser("07", "03", "2021"));
-let evento2 = new Evento(new Array("59473736B"), "PASTA TÉRMICA", dateParser("06", "04", "2021"), dateParser("07", "01", "2021"));
-let evento3 = new Evento(new Array("4907191J", "59473736B"), "CAMBIAR PLACA BASE", dateParser("1", "04", "2021"), dateParser("1", "09", "2021"));
+let evento1 = new Evento(new Array("4907191J", "50833192A"), "LIMPIAR PC", dateParser("10", "11", "2022"), dateParser("13", "11", "2022"));
+let evento2 = new Evento(new Array("59473736B"), "PASTA TÉRMICA", dateParser("09", "11", "2022"), dateParser("15", "11", "2022"));
+let evento3 = new Evento(new Array("4907191J", "59473736B"), "CAMBIAR PLACA BASE", dateParser("28", "11", "2022"), dateParser("1", "12", "2022"));
 var eventos = new Array(evento1, evento2, evento3);
 
 function actualizarOptionsEvents() {
@@ -360,26 +363,23 @@ document.getElementById("eventoAñadir").addEventListener('click', () => {
 
 document.getElementById("actualizarUser").addEventListener('click', actualizarUsuario);
 
-function dateParser(dia, mes, anio) {
-    let fecha = new Date(`${dia} ${mes} ${anio}`);
-    let diaSemana = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado']
-    let mesAnio = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-    return date = (`${diaSemana[fecha.getDay()]}, ${fecha.getDate()} ${mesAnio[fecha.getMonth()]} ${fecha.getFullYear()}`);
+function dateParser(mes, dia, anio) {
+    let fecha = new Date(` ${dia},${mes},${anio}`);
+    var date = moment(fecha, 'YYYY-MM-DD');
+    return date.format('YYYY-MM-DD');
 }
+
 document.getElementById("insertEvent").addEventListener('click', () => {
     try {
-        let date = document.getElementById("dateSEvent").value;
-        let date2 = document.getElementById("dateEEvent").value;
-        if (document.getElementById("titleEvent").value != "" && date != '' && date2 != '') {
+        let dateS = document.getElementById("dateSEvent").value;
+        let dateE = document.getElementById("dateEEvent").value;
+
+        if (document.getElementById("titleEvent").value != "" && dateS != '' && dateE != '') {
             flag = false;
-            let anioS = date.slice(0, 4);
-            let mesS = date.slice(5, 7);
-            let diaS = date.slice(8, 10);
-            let dateStart = dateParser(anioS, mesS, diaS);
-            let anioE = date2.slice(0, 4);
-            let mesE = date2.slice(5, 7);
-            let diaE = date2.slice(8, 10);
-            let dateEnd = dateParser(anioE, mesE, diaE);
+            let date = moment(dateS, 'YYYY-MM-DD');
+            let date2 = moment(dateE, 'YYYY-MM-DD');
+            let dateStart = date.format('YYYY-MM-DD');
+            let dateEnd = date2.format('YYYY-MM-DD');
             if (Date.parse(dateEnd) < Date.parse(dateStart)) {
                 swal("ERROR", "La fecha final es menor a la inicial", "error");
             }
@@ -396,10 +396,10 @@ document.getElementById("insertEvent").addEventListener('click', () => {
                 }
 
                 if (flag == false) {
-                    eventos.push(new Evento(eventosInsert, document.getElementById("titleEvent").value, dateStart, dateEnd));
+                    eventos.push(new Evento(eventosInsert, document.getElementById("titleEvent").value, dateStart, dateEnd))
                     actualizarOptionsEvents()
                     tableEvents()
-
+                    console.log(eventos);
                 }
                 else if (flag == true) {
                     swal("ERROR", "Este evento ya existe", "error");
@@ -447,6 +447,7 @@ document.getElementById('calendario').addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     CALENDAR = new FullCalendar.Calendar(calendarEl, {
+
         height: 550,
         locale: 'es',
         themeSystem: 'bootstrap5',
@@ -486,6 +487,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             }
         },
+        /* Crear Evemtos */
         select: function (arg) {
             Swal.fire({
                 html: "<div class='mb-7'>¿Crear nuevo evento?</div><div class='fw-bold mb-5'>Nombre del evento:</div><input type='text' class='form-control' name='event_name' />",
@@ -513,9 +515,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     CALENDAR.unselect()
                 }
             });
-        },
 
-        // Delete event
+        },
+        /* Borrar eventos */
         eventClick: function (arg) {
             Swal.fire({
                 text: "¿Estas seguro que quieres eliminar?",
@@ -531,79 +533,23 @@ document.addEventListener('DOMContentLoaded', function () {
             }).then(function (result) {
                 if (result.value) {
                     arg.event.remove()
-                } else if (result.dismiss === "cancel") {
-                    Swal.fire({
-                        text: "Event was not deleted!.",
-                        icon: "error",
-                        buttonsStyling: false,
-                        confirmButtonText: "Ok, got it!",
-                        customClass: {
-                            confirmButton: "btn btn-primary",
-                        }
-                    });
                 }
             });
         },
         editable: true,
         dayMaxEvents: true, // allow "more" link when too many events
-        events: [
-            {
-                title: "All Day Event",
-                start: "2022-11-01"
-            },
-            {
-                title: "Long Event",
-                start: "2022-11-07",
-                end: "2022-11-10"
-            },
-            {
-                groupId: 999,
-                title: "Repeating Event",
-                start: "2022-11-11T16:00:00"
-            },
-            {
-                groupId: 999,
-                title: "Repeating Event",
-                start: "2022-11-16T16:00:00"
-            },
-            {
-                title: "Conference",
-                start: "2022-11-11",
-                end: "2022-11-13"
-            },
-            {
-                title: "Meeting",
-                start: "2022-11-12T10:30:00",
-                end: "2022-11-12T12:30:00"
-            },
-            {
-                title: "Lunch",
-                start: "2022-11-12T12:00:00"
-            },
-            {
-                title: "Meeting",
-                start: "2022-11-12T14:30:00"
-            },
-            {
-                title: "Happy Hour",
-                start: "2022-11-12T17:30:00"
-            },
-            {
-                title: "Dinner",
-                start: "2022-11-12T20:00:00"
-            },
-            {
-                title: "Birthday Party",
-                start: "2022-11-13T07:00:00"
-            },
-            {
-                title: "Click for Google",
-                url: "http://google.com/",
-                start: "2020-11-28"
-            }
-        ]
+
     });
+    for (let j = 0; j < eventos.length; j++) {
+        CALENDAR.addEvent({
+            title: eventos[j].title,
+            id: eventos[j].id,
+            start: eventos[j].start,
+            end: eventos[j].end
+        });
+    }
 });
+
 $(document).ready(function () {
     $(".country").select2({
         placeholder: "Selecciona evento",
