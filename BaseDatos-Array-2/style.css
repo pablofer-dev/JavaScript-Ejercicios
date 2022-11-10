@@ -5,7 +5,9 @@
     font-size: 13px;
     text-decoration: none !important;
 }
-
+#eventoAñadir {
+    z-index: 100;
+}
 #myTable2 {
     display: none;
 }
@@ -20,6 +22,7 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    z-index: 100;
 }
 
 .select2-selection__choice__display {
@@ -78,6 +81,7 @@ input {
 
 #fullcalendar {
     display: none;
+    z-index: 60;
 }
 
 td {

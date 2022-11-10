@@ -335,8 +335,8 @@ function actualizarUsuario() {
     }
 }
 actualizarOptionsEvents();
-
-document.getElementById("eventoAñadir").addEventListener('click', () => {
+var arrayEventosActualizarFullCalendar = [];
+function eventAdd() {
     document.getElementById("nombre").disabled = true;
     document.getElementById("apellido").disabled = true;
     document.getElementById("apellido2").disabled = true;
@@ -352,13 +352,24 @@ document.getElementById("eventoAñadir").addEventListener('click', () => {
     document.getElementById("myTable2").style.display = "block";
     document.getElementById("myTable").style.filter = "brightness(40%)";
     document.getElementById("myTable").style.filter = "grayscale(60%)";
+    if (arrayEventosActualizarFullCalendar != "") {
+        let dateStart = moment(arrayEventosActualizarFullCalendar[0], 'MM-DD-YYYY');
+        console.log(dateStart.format('YYYY-MM-DD'));
+        let dateEnd = moment(arrayEventosActualizarFullCalendar[1], 'MM-DD-YYYY');
+        console.log(dateEnd.format('YYYY-MM-DD'));
+        document.getElementById("dateSEvent").value = dateStart.format('YYYY-MM-DD');
+        document.getElementById("dateEEvent").value = dateEnd.format('YYYY-MM-DD');
+        CALENDAR.render()
+        arrayEventosActualizarFullCalendar = []
+    }
     let select = document.getElementById('selectOptions3');
     for (let i = 0; i < arrayPersonas.length; i++) {
         let opt = document.createElement('option');
         opt.innerHTML = arrayPersonas[i].dni;
         select.appendChild(opt);
     }
-});
+}
+
 
 document.getElementById("actualizarUser").addEventListener('click', actualizarUsuario);
 
@@ -442,7 +453,6 @@ document.getElementById('calendario').addEventListener('click', () => {
 })
 /* Full calendar Scripts */
 
-
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     CALENDAR = new FullCalendar.Calendar(calendarEl, {
@@ -488,33 +498,10 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         /* Crear Evemtos */
         select: function (arg) {
-            Swal.fire({
-                html: "<div class='mb-7'>¿Crear nuevo evento?</div><div class='fw-bold mb-5'>Nombre del evento:</div><input type='text' class='form-control' name='event_name' />",
-                icon: "info",
-                showCancelButton: true,
-                buttonsStyling: false,
-                confirmButtonText: "Enviar Evento",
-                cancelButtonText: "Volver",
-                customClass: {
-                    confirmButton: "btn btn-primary",
-                    cancelButton: "btn btn-active-light"
-                }
-            }).then(function (result) {
-                if (result.value) {
-                    var title = document.querySelector("input[name='event_name']").value;
-                    if (title) {
-                        console.log(title);
-                        CALENDAR.addEvent({
-                            title: title,
-                            start: arg.start,
-                            end: arg.end,
-                            allDay: arg.allDay
-                        })
-                    }
-                    CALENDAR.unselect()
-                }
-            });
 
+            arrayEventosActualizarFullCalendar.push(arg.start);
+            arrayEventosActualizarFullCalendar.push(arg.end);
+            eventAdd();
         },
         /* Borrar eventos */
         eventClick: function (arg) {
@@ -547,6 +534,7 @@ document.addEventListener('DOMContentLoaded', function () {
             end: eventos[j].end
         });
     }
+
 });
 
 $(document).ready(function () {
