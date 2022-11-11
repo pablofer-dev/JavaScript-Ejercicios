@@ -509,12 +509,9 @@ function deleteUserEvent(idPersona) {
     title = $(idPersona).attr('name').split('+').join(' ');
     id = $(idPersona).attr('id');
     eventos.forEach(element => {
-        if (element.title == element) {
-            element.id.forEach(ids => {
-                if (ids == id) {
-                    eventos = eventos.filter(evento => evento.id != id);
-                }
-            });
+        if (element.title == title) {
+            const index = element.id.indexOf(id);
+            element.id.splice(index, 1);
         }
     });
     removeEventsFullCalendar();
