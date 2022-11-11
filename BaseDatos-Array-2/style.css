@@ -73,7 +73,15 @@ input {
     background-color: #242e39;
     color: #fff;
 }
-
+.bi {
+    cursor: pointer;
+    
+    transition: ease-in-out 0.3s all;
+}
+.bi:hover {
+    color: #202932;
+    font-size: 17px !important;
+}
 .tablefalse2 {
     background-color: #242e39;
     color: black

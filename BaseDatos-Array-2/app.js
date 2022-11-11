@@ -479,6 +479,29 @@ function waitListener() {
     });
 }
 
+function moreInfo(params) {
+    arrayIDEventos = params.split(",");
+    console.log(arrayIDEventos);
+    var moreInfo = "";
+    for (let p = 0; p < arrayPersonas.length; p++) {
+        for (let g = 0; g < arrayIDEventos.length; g++) {
+            if (arrayPersonas[p].dni == arrayIDEventos[g]) {
+                moreInfo = moreInfo + 'Dni: <strong>' + arrayPersonas[p].dni + ' </strong><br>'
+                moreInfo = moreInfo + 'Edad:  <strong>' + arrayPersonas[p].edad + ' </strong><br><br>'
+                eventos.forEach(element => {
+                    element.id.forEach(element2 => {
+                        if (element2 == arrayIDEventos[g]) {
+                            moreInfo = moreInfo + 'Evento:  <strong>' + element.title + ' </strong><br> ' 
+                            moreInfo = moreInfo + '<strong>'+ element.start + '   -   ' + element.end + ' </strong><br><br> ' 
+                            Swal.fire(arrayPersonas[p].nombre + " " + arrayPersonas[p].apellido + " " + arrayPersonas[p].apellido2, moreInfo)
+                        }
+                    });
+                });
+            }
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     CALENDAR = new FullCalendar.Calendar(calendarEl, {
@@ -493,7 +516,6 @@ document.addEventListener('DOMContentLoaded', function () {
         initialView: "dayGridMonth",
         navLinks: true,
         selectable: true,
-        selectMirror: true,
         customButtons: {
             myCustomButton: {
                 text: 'Ver Tabla',
@@ -521,48 +543,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
             }
         },
+        eventContent: function (arg) {
+            let HTML = arg.event.title;
+            let eventosArray = arg.event.id.split(',');
+            HTML += "<ol>";
+            for (let k = 0; k < eventos.length; k++) {
+                if (arg.event.title == eventos[k].title) {
+                    for (let j = 0; j < arrayPersonas.length; j++) {
+                        for (let e = 0; e < eventosArray.length; e++) {
+                            if (arrayPersonas[j].dni == eventosArray[e]) {
+                                let dni = arrayPersonas[j].dni
+                                HTML += "<li>" + arrayPersonas[j].nombre + "<i class='bi bi-file-earmark fs-5 mx-2' onclick='moreInfo(this.id)'id= " + dni + "></i> <i class='bi bi-trash2 fs-5' onclick='delete()'></i>" + "</li>";
+                            }
+                        }
 
-        /* Crear Evemtos */
-        select: async function (arg) {
-            arrayEventosActualizarFullCalendar = [];
-            arrayEventosActualizarFullCalendar.push(arg.start);
-            arrayEventosActualizarFullCalendar.push(arg.end);
-            eventAdd();
-            await waitListener();
-            CALENDAR.addEvent({
-                title: arrayEventosActualizarFullCalendar[3],
-                id: arrayEventosActualizarFullCalendar[2],
-                start: arg.start,
-                end: arg.end,
-                allDay: arg.allDay
-            })
-            arrayEventosActualizarFullCalendar = [];
-            closeMenu();
-            CALENDAR.unselect();
-        },
-        /* Borrar eventos */
-        eventClick: function (arg) {
-            Swal.fire({
-                text: "¿Estas seguro que quieres eliminar?",
-                icon: "warning",
-                showCancelButton: true,
-                buttonsStyling: false,
-                confirmButtonText: "Sí, borrarlo",
-                cancelButtonText: "No, return",
-                customClass: {
-                    confirmButton: "btn btn-primary",
-                    cancelButton: "btn btn-active-light"
+                    }
                 }
-            }).then(function (result) {
-                if (result.value) {
-                    arg.event.remove();
-                    removeEvent(arg.event.title);
-                }
-            });
-        },
-        editable: true,
-        dayMaxEvents: true, // allow "more" link when too many events
-
+            }
+            HTML += "</ol>";
+            HTML += `${arg.event.startStr} - ${arg.event.endStr}`;
+            return { html: HTML }
+        }
     });
     for (let j = 0; j < eventos.length; j++) {
         CALENDAR.addEvent({
