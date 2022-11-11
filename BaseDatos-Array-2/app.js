@@ -502,8 +502,9 @@ function moreInfo(params) {
     }
 }
 function deleteUserEvent(idPersona) {
-    console.log($(idPersona).attr('name').split('+').join(' '));
-    console.log($(idPersona).attr('id'));
+    title = $(idPersona).attr('name').split('+').join(' ');
+    id = $(idPersona).attr('id');
+    
 }
 
 document.addEventListener('DOMContentLoaded', function () {
