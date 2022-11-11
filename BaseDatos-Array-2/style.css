@@ -5,16 +5,38 @@
     font-size: 13px;
     text-decoration: none !important;
 }
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #202932;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
 #eventoAñadir {
     z-index: 100;
 }
+
 #myTable2 {
     display: none;
 }
 
 #myTable {
     display: block;
-   
+
 }
 
 .centered-axis-xy {
@@ -73,15 +95,18 @@ input {
     background-color: #242e39;
     color: #fff;
 }
+
 .bi {
     cursor: pointer;
-    
+
     transition: ease-in-out 0.3s all;
 }
+
 .bi:hover {
     color: #202932;
     font-size: 17px !important;
 }
+
 .tablefalse2 {
     background-color: #242e39;
     color: black

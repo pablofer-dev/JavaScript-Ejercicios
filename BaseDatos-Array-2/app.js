@@ -491,8 +491,8 @@ function moreInfo(params) {
                 eventos.forEach(element => {
                     element.id.forEach(element2 => {
                         if (element2 == arrayIDEventos[g]) {
-                            moreInfo = moreInfo + 'Evento:  <strong>' + element.title + ' </strong><br> ' 
-                            moreInfo = moreInfo + '<strong>'+ element.start + '   -   ' + element.end + ' </strong><br><br> ' 
+                            moreInfo = moreInfo + 'Evento:  <strong>' + element.title + ' </strong><br> '
+                            moreInfo = moreInfo + '<strong>' + element.start + '   -   ' + element.end + ' </strong><br><br> '
                             Swal.fire(arrayPersonas[p].nombre + " " + arrayPersonas[p].apellido + " " + arrayPersonas[p].apellido2, moreInfo)
                         }
                     });
@@ -500,6 +500,10 @@ function moreInfo(params) {
             }
         }
     }
+}
+function deleteUserEvent(idPersona) {
+    console.log($(idPersona).attr('name').split('+').join(' '));
+    console.log($(idPersona).attr('id'));
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -515,7 +519,6 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         initialView: "dayGridMonth",
         navLinks: true,
-        selectable: true,
         customButtons: {
             myCustomButton: {
                 text: 'Ver Tabla',
@@ -545,6 +548,7 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         eventContent: function (arg) {
             let HTML = arg.event.title;
+            let titulolinea = arg.event.title.split(' ').join('+');
             let eventosArray = arg.event.id.split(',');
             HTML += "<ol>";
             for (let k = 0; k < eventos.length; k++) {
@@ -553,7 +557,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         for (let e = 0; e < eventosArray.length; e++) {
                             if (arrayPersonas[j].dni == eventosArray[e]) {
                                 let dni = arrayPersonas[j].dni
-                                HTML += "<li>" + arrayPersonas[j].nombre + "<i class='bi bi-file-earmark fs-5 mx-2' onclick='moreInfo(this.id)'id= " + dni + "></i> <i class='bi bi-trash2 fs-5' onclick='delete()'></i>" + "</li>";
+                                HTML += "<li>" + arrayPersonas[j].nombre + "<i class='bi bi-file-earmark fs-5 mx-2' onclick='moreInfo(this.id)'id= " + dni + "></i> <i class='bi bi-trash2 fs-5'  id= " + dni + " " + "name=" + titulolinea + " onclick='deleteUserEvent(this)'></i > " + "</li > ";
                             }
                         }
 
