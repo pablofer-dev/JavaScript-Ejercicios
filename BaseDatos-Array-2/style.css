@@ -5,7 +5,34 @@
     font-size: 13px;
     text-decoration: none !important;
 }
+.bi {
+    color: #ffffff;
+    -webkit-text-stroke: 0.04mm;
+}
+.title {
+    font-size: 18px !important;
+}
 
+.iconB {
+    font-size: 12px !important;
+    cursor: pointer;
+    transition: ease-in-out 0.3s all;
+}
+.iconB:hover {
+    color: #202932;
+    -webkit-text-stroke: 0.4mm;
+    font-size: 11px !important;
+}
+.iconA {
+    font-size: 18px !important;
+    cursor: pointer;
+    transition: ease-in-out 0.3s all;
+}
+.iconA:hover {
+    color: #202932;
+    -webkit-text-stroke: 0.4mm;
+    font-size: 17px !important;
+}
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
@@ -96,16 +123,7 @@ input {
     color: #fff;
 }
 
-.bi {
-    cursor: pointer;
 
-    transition: ease-in-out 0.3s all;
-}
-
-.bi:hover {
-    color: #202932;
-    font-size: 17px !important;
-}
 
 .tablefalse2 {
     background-color: #242e39;

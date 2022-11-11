@@ -416,6 +416,10 @@ document.getElementById("insertEvent").addEventListener('click', () => {
                 else if (flag == true) {
                     swal("ERROR", "Este evento ya existe", "error");
                 }
+                if (CALENDAR != null) {
+                    removeEventsFullCalendar();
+                    addEventsFullCalendar();
+                }
             }
 
         } else {
@@ -504,7 +508,46 @@ function moreInfo(params) {
 function deleteUserEvent(idPersona) {
     title = $(idPersona).attr('name').split('+').join(' ');
     id = $(idPersona).attr('id');
-    
+    eventos.forEach(element => {
+        if (element.title == element) {
+            element.id.forEach(ids => {
+                if (ids == id) {
+                    eventos = eventos.filter(evento => evento.id != id);
+                }
+            });
+        }
+    });
+    removeEventsFullCalendar();
+    addEventsFullCalendar();
+    actualizarOptionsEvents()
+    tableEvents();
+    table();
+};
+function removeEventsFullCalendar() {
+    var listEvent = CALENDAR.getEvents();
+    listEvent.forEach(event => {
+        event.remove()
+    });
+}
+function addEventsFullCalendar() {
+    for (let j = 0; j < eventos.length; j++) {
+        CALENDAR.addEvent({
+            title: eventos[j].title,
+            id: eventos[j].id,
+            start: eventos[j].start,
+            end: eventos[j].end = eventos[j].end
+        });
+    }
+
+}
+function deleteEvent(title) {
+    title = title.split('+').join(' ');
+    eventos = eventos.filter(evento => evento.title != title);
+    removeEventsFullCalendar();
+    addEventsFullCalendar();
+    actualizarOptionsEvents()
+    tableEvents();
+    table();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -547,10 +590,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
             }
         },
+        editable: true,
         eventContent: function (arg) {
-            let HTML = arg.event.title;
             let titulolinea = arg.event.title.split(' ').join('+');
             let eventosArray = arg.event.id.split(',');
+            let HTML = "<span class='title'>" + arg.event.title + "</span>" + "<i class='bi bi-trash2 mx-2 fs-5 iconA' id=" + titulolinea + " onclick='deleteEvent(this.id)'></i >";
             HTML += "<ol>";
             for (let k = 0; k < eventos.length; k++) {
                 if (arg.event.title == eventos[k].title) {
@@ -558,10 +602,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         for (let e = 0; e < eventosArray.length; e++) {
                             if (arrayPersonas[j].dni == eventosArray[e]) {
                                 let dni = arrayPersonas[j].dni
-                                HTML += "<li>" + arrayPersonas[j].nombre + "<i class='bi bi-file-earmark fs-5 mx-2' onclick='moreInfo(this.id)'id= " + dni + "></i> <i class='bi bi-trash2 fs-5'  id= " + dni + " " + "name=" + titulolinea + " onclick='deleteUserEvent(this)'></i > " + "</li > ";
+                                HTML += "<li>" + arrayPersonas[j].nombre + "<i class='bi bi-file-earmark fs-5 mx-2 iconB' onclick='moreInfo(this.id)'id= " + dni + "></i> <i class='bi bi-trash2 fs-5 iconB'  id= " + dni + " " + "name=" + titulolinea + " onclick='deleteUserEvent(this)'></i > " + "</li > ";
                             }
                         }
-
                     }
                 }
             }
@@ -570,15 +613,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return { html: HTML }
         }
     });
-    for (let j = 0; j < eventos.length; j++) {
-        CALENDAR.addEvent({
-            title: eventos[j].title,
-            id: eventos[j].id,
-            start: eventos[j].start,
-            end: eventos[j].end
-        });
-    }
-
+    addEventsFullCalendar()
 });
 
 $(document).ready(function () {
