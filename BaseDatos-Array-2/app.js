@@ -133,9 +133,9 @@ function parImpar(numero) {
         return false;
     }
 }
-let evento1 = new Evento(new Array("4907191J", "50833192A"), "LIMPIAR PC", dateParser("10", "11", "2022"), dateParser("13", "11", "2022"));
-let evento2 = new Evento(new Array("59473736B"), "PASTA TÉRMICA", dateParser("09", "11", "2022"), dateParser("15", "11", "2022"));
-let evento3 = new Evento(new Array("4907191J", "59473736B"), "CAMBIAR PLACA BASE", dateParser("28", "11", "2022"), dateParser("1", "12", "2022"));
+let evento1 = new Evento(new Array("4907191J", "50833192A"), "LIMPIAR PC", dateParser("01", "11", "2022"), dateParser("04", "11", "2022"));
+let evento2 = new Evento(new Array("59473736B"), "PASTA TÉRMICA", dateParser("15", "11", "2022"), dateParser("18", "11", "2022"));
+let evento3 = new Evento(new Array("4907191J", "59473736B"), "CAMBIAR PLACA BASE", dateParser("06", "12", "2022"), dateParser("09", "12", "2022"));
 var eventos = new Array(evento1, evento2, evento3);
 
 function actualizarOptionsEvents() {
@@ -486,7 +486,7 @@ function waitListener() {
 function moreInfo(params) {
     arrayIDEventos = params.split(",");
     console.log(arrayIDEventos);
-    var moreInfo = "";
+    let moreInfo = "";
     for (let p = 0; p < arrayPersonas.length; p++) {
         for (let g = 0; g < arrayIDEventos.length; g++) {
             if (arrayPersonas[p].dni == arrayIDEventos[g]) {
@@ -508,17 +508,42 @@ function moreInfo(params) {
 function deleteUserEvent(idPersona) {
     title = $(idPersona).attr('name').split('+').join(' ');
     id = $(idPersona).attr('id');
-    eventos.forEach(element => {
-        if (element.title == title) {
-            const index = element.id.indexOf(id);
-            element.id.splice(index, 1);
+    nombre = function (id) {
+        for (let index = 0; index < arrayPersonas.length; index++) {
+            if (id == arrayPersonas[index].dni) {
+                return arrayPersonas[index].nombre + " " + arrayPersonas[index].apellido + " " + arrayPersonas[index].apellido2;
+            }
+
         }
-    });
-    removeEventsFullCalendar();
-    addEventsFullCalendar();
-    actualizarOptionsEvents()
-    tableEvents();
-    table();
+    }
+    Swal.fire({
+        title: `${nombre(id)}`,
+        text: `Borrar a ${nombre(id)} con evento: ${title}`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            eventos.forEach(element => {
+                if (element.title == title) {
+                    const index = element.id.indexOf(id);
+                    element.id.splice(index, 1);
+                }
+            });
+            removeEventsFullCalendar();
+            addEventsFullCalendar();
+            actualizarOptionsEvents()
+            tableEvents();
+            table();
+            Swal.fire(
+                'Borrado!',
+                `Has borrado ${nombre(id)} con evento: ${title}`,
+                'success'
+            )
+        }
+    })
 };
 function removeEventsFullCalendar() {
     var listEvent = CALENDAR.getEvents();
@@ -535,29 +560,98 @@ function addEventsFullCalendar() {
             end: eventos[j].end = eventos[j].end
         });
     }
-
 }
 function deleteEvent(title) {
     title = title.split('+').join(' ');
     eventos = eventos.filter(evento => evento.title != title);
+    
+    Swal.fire({
+        title: `${title}`,
+        text: `¿Quieres borrar el evento ${title}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            eventos.forEach(element => {
+                if (element.title == title) {
+                    const index = element.id.indexOf(id);
+                    element.id.splice(index, 1);
+                }
+            });
+            removeEventsFullCalendar();
+            addEventsFullCalendar();
+            actualizarOptionsEvents()
+            tableEvents();
+            table();
+            Swal.fire(
+                'Borrado!',
+                `Has borrado ${nombre(id)} con evento: ${title}`,
+                'success'
+            )
+        }
+    })
+}
+function addUserEvent(params) {
+    title = $(params).attr('name').split('+').join(' ');;
+    id = $(params).attr('id');
+    for (let e = 0; e < eventos.length; e++) {
+        if (eventos[e].title == title) {
+            eventos[e].id.push(id);
+        }
+    }
+    añadirUsersEvento(title);
     removeEventsFullCalendar();
     addEventsFullCalendar();
     actualizarOptionsEvents()
     tableEvents();
     table();
 }
+function añadirUsersEvento(title) {
+    titleNoTransform = title;
+    title = title.split('+').join(' ');
+    personasEventoSeleccionado = [];
+    allDni = [];
+    personasFaltantesEventoSeleccionado = [];
+    for (let j = 0; j < eventos.length; j++) {
+        if (eventos[j].title == title) {
+            personasEventoSeleccionado.push(eventos[j].id);
+        }
+    }
+    for (let k = 0; k < arrayPersonas.length; k++) {
+        allDni.push(arrayPersonas[k].dni);
+    }
+    let tdTable = '';
+
+    personasFaltantesEventoSeleccionado = allDni.filter((word) => !personasEventoSeleccionado[0].includes(word));
+    for (let r = 0; r < personasFaltantesEventoSeleccionado.length; r++) {
+        for (let i = 0; i < arrayPersonas.length; i++) {
+            if (arrayPersonas[i].dni == personasFaltantesEventoSeleccionado[r]) {
+                tdTable += `<tr><td>${arrayPersonas[i].nombre + ' '}${arrayPersonas[i].apellido + ' '}${arrayPersonas[i].apellido2}</td> <td>${personasFaltantesEventoSeleccionado[r]}</td><td><i class='bi bi-plus iconC'  id= '${arrayPersonas[i].dni}' name='${titleNoTransform}' onclick='addUserEvent(this)'></i></td></tr>`;
+            }
+        }
+    }
+    tablaSwal = `<table class='mx-auto'><tr><td>Persona</td><td>DNI</td><td>Añadir</td><tr>${tdTable}</tr></tr></table>`
+    let moreInfo = "";
+    moreInfo = moreInfo + 'Dni: <strong>' + + ' </strong><br>'
+    moreInfo = moreInfo + 'Edad:  <strong>' + ' </strong><br><br>'
+
+    Swal.fire("<h5 class='m-0'>Añadir Personas a Evento: </h5>" + title, tablaSwal)
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     CALENDAR = new FullCalendar.Calendar(calendarEl, {
-        height: 550,
         locale: 'es',
         themeSystem: 'bootstrap5',
         headerToolbar: {
-            right: 'timeGridMes,timeGridSemana,timeGridLista,myCustomButton',
+            right: 'timeGridMes,resourceTimelineFourDays,timeGridSemana,timeGridLista,myCustomButton',
             center: 'title',
             left: 'prev,next today'
         },
+        height: $(window).height()*0.83,
         initialView: "dayGridMonth",
         navLinks: true,
         customButtons: {
@@ -569,7 +663,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         },
+        themeSystem: 'Slate',
         views: {
+            resourceTimelineFourDays: {
+                type: 'dayGridWeek',
+                buttonText: '15 dias',
+                duration: { days: 15 }
+            },
             timeGridMes: {
                 type: 'dayGridMonth',
                 buttonText: 'Mes',
@@ -587,11 +687,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
             }
         },
+        eventDrop: function (info) {
+            /* info.event.startStr */
+            for (let e = 0; e < eventos.length; e++) {
+                if (info.event.title == eventos[e].title) {
+                    eventos[e].start = info.event.startStr;
+                    eventos[e].end = info.event.endStr;
+                }
+            }
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: `${info.event.title} movido a ${info.event.startStr}`,
+                showConfirmButton: false,
+                timer: 1500
+            })
+        },
         editable: true,
         eventContent: function (arg) {
             let titulolinea = arg.event.title.split(' ').join('+');
             let eventosArray = arg.event.id.split(',');
-            let HTML = "<span class='title'>" + arg.event.title + "</span>" + "<i class='bi bi-trash2 mx-2 fs-5 iconA' id=" + titulolinea + " onclick='deleteEvent(this.id)'></i >";
+            let HTML = "<span class='title'>" + arg.event.title + "</span>" + "<i class='bi bi-person-plus iconA mx-3' id=" + titulolinea + " onclick='añadirUsersEvento(this.id)'></i>" + "<i class='bi bi-trash2 mx-1 fs-5 iconA' id=" + titulolinea + " onclick='deleteEvent(this.id)'></i >";
             HTML += "<ol>";
             for (let k = 0; k < eventos.length; k++) {
                 if (arg.event.title == eventos[k].title) {
@@ -606,7 +722,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
             HTML += "</ol>";
-            HTML += `${arg.event.startStr} - ${arg.event.endStr}`;
+            HTML += `<span class='dateevent'>${arg.event.startStr} - ${arg.event.endStr}</span>`;
             return { html: HTML }
         }
     });
@@ -644,6 +760,7 @@ function getEventosStorage() {
     var getEventosStorage = localStorage.getItem('Eventos');
     console.log('Eventos: ', JSON.parse(getEventosStorage));
 }
+
 
 table();
 tableEvents();

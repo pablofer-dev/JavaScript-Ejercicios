@@ -5,12 +5,41 @@
     font-size: 13px;
     text-decoration: none !important;
 }
+
 .bi {
     color: #ffffff;
     -webkit-text-stroke: 0.04mm;
 }
+.fc-daygrid-day-number {
+    color: #fff !important;
+}
+.fc-toolbar-title {
+    color: #fff;
+}
+.fc-daygrid-block-event {
+    background-color: #202932fa ;
+    border: 1px solid rgba(134, 194, 43, 0.521);
+}
+.dateevent {
+    color: rgba(134, 194, 43, 0.822);
+    padding-left: 10px;
+}
+.fc-daygrid-day-frame {
+    background-color: #535353e7;
+    border-radius: 4px;
+}
+
+.fc-scrollgrid-section-body,
+.fc-scrollgrid-section-liquid {
+    background-color: #202932;
+}
+
 .title {
     font-size: 18px !important;
+}
+
+.fc-col-header-cell-cushion {
+    color: rgb(134, 194, 43);
 }
 
 .iconB {
@@ -18,21 +47,39 @@
     cursor: pointer;
     transition: ease-in-out 0.3s all;
 }
+
 .iconB:hover {
-    color: #202932;
+    color: rgba(134, 194, 43, 0.822);
     -webkit-text-stroke: 0.4mm;
     font-size: 11px !important;
 }
+
 .iconA {
     font-size: 18px !important;
     cursor: pointer;
     transition: ease-in-out 0.3s all;
 }
+
 .iconA:hover {
-    color: #202932;
+    color: rgba(134, 194, 43, 0.822);
     -webkit-text-stroke: 0.4mm;
     font-size: 17px !important;
 }
+
+.iconC {
+    font-size: 18px !important;
+    cursor: pointer;
+    transition: ease-in-out 0.3s all;
+    color: #202932;
+}
+
+.iconC:hover {
+    -webkit-text-stroke: 0.2mm;
+    cursor: pointer;
+    transition: ease-in-out 0.1s all;
+    color: rgba(134, 194, 43, 0.822);
+}
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
