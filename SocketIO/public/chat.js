@@ -1,4 +1,4 @@
-const socket = io()
+const socket = io("https://websocketspablo.herokuapp.com")
 let output = document.getElementById('output')
 let message = document.getElementById('message')
 let actions = document.getElementById('actions')

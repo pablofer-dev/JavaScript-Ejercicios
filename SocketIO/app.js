@@ -11,7 +11,7 @@ const server = app.listen(app.get('port'), () => {
     console.log('Conectado: ' + `Puerto ${app.get('port')}`);
 });
 // Web Sockets
-const io = socketIO(server);
+const io = socketIO("https://websocketspablo.herokuapp.com/");
 io.on('connection', (socket) => {
     console.log(`New Connection ${socket.id}`);
     socket.on('chat:message', (data) => {
