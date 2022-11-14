@@ -222,6 +222,8 @@ function eliminarUsuario(x) {
         }
         limpiarTable();
         table();
+        tableEvents();
+        
     } catch (error) {
         swal("ERROR", "No se puede eliminar", "error");
     }
@@ -350,6 +352,7 @@ var arrayEventosActualizarFullCalendar = [];
 function eventAdd() {
     document.getElementById("nombre").disabled = true;
     document.getElementById("apellido").disabled = true;
+    document.getElementById("calendario").disabled = true;
     document.getElementById("apellido2").disabled = true;
     document.getElementById("edad").disabled = true;
     document.getElementById("dni").disabled = true;
