@@ -195,6 +195,10 @@ function insertUsuario() {
         }
         limpiarTable();
         table();
+        tableEvents();
+        removeEventsFullCalendar();
+        addEventsFullCalendar();
+        actualizarOptionsEvents()
     } catch (error) {
         swal("ERROR", error, "error");
     }
@@ -236,6 +240,7 @@ function updateUsuario(x) {
         document.getElementById("myTable").style.filter = "grayscale(60%)";
         document.getElementById("nombre").disabled = true;
         document.getElementById("apellido").disabled = true;
+        document.getElementById("calendario").disabled = true;
         document.getElementById("apellido2").disabled = true;
         document.getElementById("edad").disabled = true;
         document.getElementById("dni").disabled = true;
@@ -318,6 +323,7 @@ function actualizarUsuario() {
             document.getElementById("edad").disabled = false;
             document.getElementById("dni").disabled = false;
             document.getElementById("selectOptions").disabled = false;
+            document.getElementById("calendario").disabled = false;
 
             var elems = document.querySelectorAll('[id^="botonDisable"]');
             for (var i = 0; i < elems.length; i++) {
@@ -326,6 +332,10 @@ function actualizarUsuario() {
             document.body.style.backgroundColor = "#2c3845ec";
             limpiarTable();
             table();
+            tableEvents();
+            removeEventsFullCalendar();
+            addEventsFullCalendar();
+            actualizarOptionsEvents()
             swal("Actualizado " + nombre, "Se ha actualizado con exito", "success");
         }
         if (document.getElementById("nombreUpdate").value == "") {
@@ -445,6 +455,7 @@ function closeMenu() {
     document.getElementById("edad").disabled = false;
     document.getElementById("dni").disabled = false;
     document.getElementById("selectOptions").disabled = false;
+    document.getElementById("calendario").disabled = false;
     var elems = document.querySelectorAll('[id^="botonDisable"]');
     for (var i = 0; i < elems.length; i++) {
         elems[i].disabled = false;
@@ -564,7 +575,7 @@ function addEventsFullCalendar() {
 function deleteEvent(title) {
     title = title.split('+').join(' ');
     eventos = eventos.filter(evento => evento.title != title);
-    
+
     Swal.fire({
         title: `${title}`,
         text: `¿Quieres borrar el evento ${title}?`,
@@ -651,7 +662,7 @@ document.addEventListener('DOMContentLoaded', function () {
             center: 'title',
             left: 'prev,next today'
         },
-        height: $(window).height()*0.83,
+        height: $(window).height() * 0.83,
         initialView: "dayGridMonth",
         navLinks: true,
         customButtons: {
