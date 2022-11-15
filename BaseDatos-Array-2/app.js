@@ -223,7 +223,7 @@ function eliminarUsuario(x) {
         limpiarTable();
         table();
         tableEvents();
-        
+
     } catch (error) {
         swal("ERROR", "No se puede eliminar", "error");
     }
@@ -425,6 +425,7 @@ document.getElementById("insertEvent").addEventListener('click', () => {
                     eventos.push(new Evento(eventosInsert, document.getElementById("titleEvent").value, dateStart, dateEnd))
                     actualizarOptionsEvents()
                     tableEvents()
+                    Swal.fire("Evento insertado", "Se ha insertado con exito", "success");
                 }
                 else if (flag == true) {
                     swal("ERROR", "Este evento ya existe", "error");
@@ -438,10 +439,18 @@ document.getElementById("insertEvent").addEventListener('click', () => {
         } else {
             swal("ERROR", "Tienes campos obligatorios vacios", "error");
         }
+        $(".fc-myCustomButton-button").prop('disabled', false);
+        $(".fc-timeGridLista-button").prop('disabled', false);
+        $(".fc-timeGridSemana-button").prop('disabled', false);
+        $(".fc-resourceTimelineFourDays-button").prop('disabled', false);
+        $(".fc-timeGridMes-button").prop('disabled', false);
+        $(".fc-next-button").prop('disabled', false);
+        $(".fc-prev-button").prop('disabled', false);
         closeMenu()
         actualizarOptionsEvents()
         tableEvents();
         table();
+        document.getElementById("titleEvent").value = "";
     } catch (error) {
         console.log(error);
     }
@@ -663,7 +672,7 @@ document.addEventListener('DOMContentLoaded', function () {
         headerToolbar: {
             right: 'timeGridMes,resourceTimelineFourDays,timeGridSemana,timeGridLista,myCustomButton',
             center: 'title',
-            left: 'prev,next today'
+            left: 'prev,next today,myCustomButton2'
         },
         height: $(window).height() * 0.83,
         initialView: "dayGridMonth",
@@ -674,6 +683,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 click: function () {
                     document.getElementById('myTable').style.display = "inherit";
                     document.getElementById('fullcalendar').style.display = "none";
+                }
+            },
+            myCustomButton2: {
+                text: 'Insertar Evento',
+                click: function () {
+                    $(".fc-myCustomButton-button").prop('disabled', true);
+                    $(".fc-timeGridLista-button").prop('disabled', true);
+                    $(".fc-timeGridSemana-button").prop('disabled', true);
+                    $(".fc-resourceTimelineFourDays-button").prop('disabled', true);
+                    $(".fc-timeGridMes-button").prop('disabled', true);
+                    $(".fc-next-button").prop('disabled', true);
+                    $(".fc-prev-button").prop('disabled', true);
+                    eventAdd();
+
                 }
             }
         },
@@ -774,7 +797,13 @@ function getEventosStorage() {
     var getEventosStorage = localStorage.getItem('Eventos');
     console.log('Eventos: ', JSON.parse(getEventosStorage));
 }
-
+/* Center fullcalendar */
+if (calendar) {
+    $(window).resize(function () {
+        var calHeight = $(window).height() * 0.83;
+        $('#calendar').fullCalendar('option', 'height', calHeight);
+    });
+};
 
 table();
 tableEvents();

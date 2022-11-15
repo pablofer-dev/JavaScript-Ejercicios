@@ -16,6 +16,11 @@
 .fc-toolbar-title {
     color: #fff;
 }
+.fc-myCustomButton2-button,.fc-myCustomButton-button {
+    background-color: rgba(134, 194, 43, 0.822) !important;
+    border: 1px solid rgba(134, 194, 43, 0.822) !important;
+}
+
 .fc-daygrid-block-event {
     background-color: #202932fa ;
     border: 1px solid rgba(134, 194, 43, 0.521);
