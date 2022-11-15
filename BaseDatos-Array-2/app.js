@@ -575,8 +575,7 @@ function removeEventsFullCalendar() {
 }
 function addEventsFullCalendar() {
     let eventosStorage = getEventosStorage();
-    
-    if (eventosStorage != '') {
+    if (eventosStorage != null) {
         for (let j = 0; j < eventosStorage.length; j++) {
             CALENDAR.addEvent({
                 title: eventosStorage[j].title,
@@ -750,7 +749,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     eventos[e].end = info.event.endStr;
                 }
             }
-            localStorage.setItem('Eventos', JSON.stringify(eventos));
+            localStorage.setItem('Eventos', JSON.stringify(CALENDAR.getEvents()));
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -806,11 +805,6 @@ $(document).ready(function () {
         dropdownCssClass: "Montserrat"
     });
 });
-function getPersonasStorage() {
-    let personasStorage = localStorage.setItem('Personas', JSON.stringify(arrayPersonas));
-    let getPersonasStorage = localStorage.getItem('Personas');
-    return JSON.parse(getPersonasStorage);
-}
 
 function getEventosStorage() {
     getEventosStorage = localStorage.getItem('Eventos');
