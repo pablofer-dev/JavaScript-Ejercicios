@@ -670,9 +670,14 @@ document.addEventListener('DOMContentLoaded', function () {
         locale: 'es',
         themeSystem: 'bootstrap5',
         headerToolbar: {
-            right: 'timeGridMes,resourceTimelineFourDays,timeGridSemana,timeGridLista,myCustomButton',
+            right: 'timeGridMes,resourceTimelineFourDays,timeGridSemana,timeGridLista',
             center: 'title',
-            left: 'prev,next today,myCustomButton2'
+            left: 'prev,next today'
+        },
+        footerToolbar: {
+            right: 'myCustomButton',
+            center: '',
+            left: 'myCustomButton2'
         },
         height: $(window).height() * 0.83,
         initialView: "dayGridMonth",
