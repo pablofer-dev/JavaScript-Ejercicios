@@ -508,7 +508,6 @@ function waitListener() {
 
 function moreInfo(params) {
     arrayIDEventos = params.split(",");
-    console.log(arrayIDEventos);
     let moreInfo = "";
     for (let p = 0; p < arrayPersonas.length; p++) {
         for (let g = 0; g < arrayIDEventos.length; g++) {
@@ -575,13 +574,27 @@ function removeEventsFullCalendar() {
     });
 }
 function addEventsFullCalendar() {
-    for (let j = 0; j < eventos.length; j++) {
-        CALENDAR.addEvent({
-            title: eventos[j].title,
-            id: eventos[j].id,
-            start: eventos[j].start,
-            end: eventos[j].end = eventos[j].end
-        });
+    let eventosStorage = getEventosStorage();
+    
+    if (eventosStorage != '') {
+        for (let j = 0; j < eventosStorage.length; j++) {
+            CALENDAR.addEvent({
+                title: eventosStorage[j].title,
+                id: eventosStorage[j].id,
+                start: eventosStorage[j].start,
+                end: eventosStorage[j].end = eventosStorage[j].end
+            });
+        }
+    }
+    else {
+        for (let j = 0; j < eventos.length; j++) {
+            CALENDAR.addEvent({
+                title: eventos[j].title,
+                id: eventos[j].id,
+                start: eventos[j].start,
+                end: eventos[j].end = eventos[j].end
+            });
+        }
     }
 }
 function deleteEvent(title) {
@@ -737,6 +750,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     eventos[e].end = info.event.endStr;
                 }
             }
+            localStorage.setItem('Eventos', JSON.stringify(eventos));
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -793,14 +807,14 @@ $(document).ready(function () {
     });
 });
 function getPersonasStorage() {
-    var personasStorage = localStorage.setItem('Personas', JSON.stringify(arrayPersonas));
-    var getPersonasStorage = localStorage.getItem('Personas');
-    console.log('Personas: ', JSON.parse(getPersonasStorage));
+    let personasStorage = localStorage.setItem('Personas', JSON.stringify(arrayPersonas));
+    let getPersonasStorage = localStorage.getItem('Personas');
+    return JSON.parse(getPersonasStorage);
 }
+
 function getEventosStorage() {
-    var eventosStorage = localStorage.setItem('Eventos', JSON.stringify(eventos));
-    var getEventosStorage = localStorage.getItem('Eventos');
-    console.log('Eventos: ', JSON.parse(getEventosStorage));
+    getEventosStorage = localStorage.getItem('Eventos');
+    return JSON.parse(getEventosStorage)
 }
 /* Center fullcalendar */
 if (calendar) {
