@@ -22,9 +22,7 @@ const upload = multer({ storage: storage })
 const app = express();
 
 app.set('port', process.env.PORT || 3000)
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'))
-})
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.post('/file', upload.single('file'), async function (req, res) {
     let resultIMG = await name(path.join(__dirname, 'uploads', req.file.filename))
