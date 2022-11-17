@@ -12,7 +12,7 @@ export default function App({ navigation, params }) {
       const url = `https://pokeapi.co/api/v2/pokemon/${j}/`
       const response = await fetch(url)
       const data = await response.json()
-      let jsonGenerator = { avatar_url: data.sprites.front_default, name: data.forms[0].name, subtitle: data.types[0].type.name };
+      let jsonGenerator = { avatar_url: data.sprites.front_default, name: data.forms[0].name.toUpperCase(), subtitle: data.types[0].type.name };
       await pokemons_array.push(jsonGenerator);
     }
     setPokemons(pokemons_array);
@@ -29,13 +29,16 @@ export default function App({ navigation, params }) {
       <ScrollView>
         <View>
           {pokemons.length == 0 ? <ActivityIndicator size="large" /> :
-            pokemons.map((l, i) => (
-              <TouchableOpacity>
-                <ListItem key={i} style={styles.container}>
-                  <Avatar source={{ uri: l.avatar_url }} />
+            pokemons.map((l, index) => (
+              <TouchableOpacity key={index}>
+                <ListItem style={styles.container}>
+                  <Avatar size="large"
+                    title="LW"
+                    onPress={() => console.log("Works!")}
+                    activeOpacity={0.7} source={{ uri: l.avatar_url }} />
                   <ListItem.Content>
-                    <ListItem.Title>{l.name}</ListItem.Title>
-                    <ListItem.Subtitle> Tipo {l.subtitle}</ListItem.Subtitle>
+                    <ListItem.Title styles={styles.title}>{l.name}</ListItem.Title>
+                    <ListItem.Subtitle> Type: {l.subtitle}</ListItem.Subtitle>
                   </ListItem.Content>
                 </ListItem>
               </TouchableOpacity>
@@ -47,9 +50,15 @@ export default function App({ navigation, params }) {
 
   );
 }
+<Avatar
 
+/>
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#000'
   },
+  title: {
+    fontSize: 50,
+  },
+
 });
