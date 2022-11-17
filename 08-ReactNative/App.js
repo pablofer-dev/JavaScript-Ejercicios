@@ -2,24 +2,26 @@ import { StyleSheet, Text, View, ScrollView, TouchableOpacity, ActivityIndicator
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ListItem, Avatar } from '@rneui/themed';
-const axios = require('axios').default;
+const fetch = require('node-fetch');
 
 export default function App({ navigation, params }) {
   const [pokemons, setPokemons] = useState([]);
   var pokemons_array = [];
-  useEffect(async () => {
+  async function pokemonsPritn() {
     for (let j = 1; j <= 100; j++) {
       const url = `https://pokeapi.co/api/v2/pokemon/${j}/`
-      console.log(url);
-      await axios.get(url)
-        .then(async response => {
-          let jsonGenerator = { avatar_url: response.data.sprites.front_default, name: response.data.forms[0].name, subtitle: response.data.types[0].type.name };
-
-          pokemons_array.push(jsonGenerator);
-
-        })
+      const response = await fetch(url)
+      const data = await response.json()
+      let jsonGenerator = { avatar_url: data.sprites.front_default, name: data.forms[0].name, subtitle: data.types[0].type.name };
+      await pokemons_array.push(jsonGenerator);
     }
     setPokemons(pokemons_array);
+  }
+  useEffect(() => {
+    pokemonsPritn();
+    return () => {
+      true
+    };
   }, []);
 
   return (
