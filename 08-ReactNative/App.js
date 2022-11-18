@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Button, Text, StyleSheet, View, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Text, StyleSheet, View, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { ListItem, Avatar } from '@rneui/themed';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
-function HomeScreen({ navigation }) {
+function PokemonsScreen({ navigation }) {
   const [pokemons, setPokemons] = useState([]);
   var pokemons_array = [];
   async function pokemonsPritn() {
-    for (let j = 1; j <= 100; j++) {
+    for (let j = 1; j <= 5; j++) {
       const url = `https://pokeapi.co/api/v2/pokemon/${j}/`
       const response = await fetch(url)
       const data = await response.json()
@@ -26,39 +25,39 @@ function HomeScreen({ navigation }) {
   }, []);
 
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View>
-          {pokemons.length == 0 ? <ActivityIndicator size="large" /> :
-            pokemons.map((l, index) => (
-              <TouchableOpacity key={index} onPress={() => {
-                navigation.navigate('Details')
-              }
-              }>
-          <ListItem style={styles.container}>
-            <Avatar size="large"
-              title="LW"
-              onPress={() => console.log("Works!")}
-              activeOpacity={0.7} source={{ uri: l.avatar_url }} />
-            <ListItem.Content>
-              <ListItem.Title styles={styles.title}>{l.name}</ListItem.Title>
-              <ListItem.Subtitle> Type: {l.subtitle}</ListItem.Subtitle>
-            </ListItem.Content>
-          </ListItem>
-        </TouchableOpacity>
-        ))
-          }
+    <ScrollView style={styles.container} >
+      <View>
+        {pokemons.length == 0 ? <ActivityIndicator size="large" /> :
+          pokemons.map((l, index) => (
+            <TouchableOpacity key={index} onPress={() => {
+              navigation.navigate('Detalles', { id: index });
+            }
+            }>
+              <ListItem containerStyle={{ backgroundColor: "rgba(189, 189, 189, 0.596);" }}>
+                <Avatar size="large"
+                  title="LW"
+                  activeOpacity={0.7} source={{ uri: l.avatar_url }} />
+                <ListItem.Content >
+                  <ListItem.Title style={styles.title}>{l.name}</ListItem.Title>
+                  <ListItem.Subtitle style={styles.subtitle}> Type: {l.subtitle}</ListItem.Subtitle>
+                </ListItem.Content>
+                <Text style={styles.number}>{index + 1}</Text>
+              </ListItem>
+            </TouchableOpacity>
+          ))
+        }
       </View>
     </ScrollView>
-    </SafeAreaView >
-
   );
 }
 
-function DetailsScreen() {
+function DetallesScreen({ route, navigation }) {
+  let idpokemon = route.params.id + 1;
+
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Details Screen</Text>
+      <Text>{idpokemon}</Text>
+      <Text></Text>
     </View>
   );
 }
@@ -68,20 +67,53 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Details" component={DetailsScreen} />
+      <Stack.Navigator initialRouteName="Pokemons" style={styles.container}>
+        <Stack.Screen options={{
+          title: 'Pokemons', //Set Header Title
+          headerStyle: {
+            backgroundColor: 'gray', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+        }} name="Pokemons" component={PokemonsScreen} />
+        <Stack.Screen options={{
+          title: 'Pokemons', //Set Header Title
+          headerStyle: {
+            backgroundColor: 'gray', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold', //Set Header text style
+          },
+        }} name="Detalles" component={DetallesScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#000'
+    backgroundColor: 'gray',
   },
   title: {
-    fontSize: 50,
+    fontSize: 20,
+    color:'#fff'
   },
+  subtitle: {
+    fontSize: 15,
+    color:'rgb(204, 70, 70)',
+    fontWeight: 'bold',
+  },
+  number: {
+    fontSize: 13,
+    textAlign: 'right',
+    color:'#fff',
+  },
+  text: {
+    color:'#fff',
+  }
+
 
 });
 export default App;
