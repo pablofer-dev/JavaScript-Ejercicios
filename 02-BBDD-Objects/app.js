@@ -645,6 +645,7 @@ function addUserEvent(params) {
     table();
 }
 function añadirUsersEvento(title) {
+  
     titleNoTransform = title;
     title = title.split('+').join(' ');
     personasEventoSeleccionado = [];
@@ -807,6 +808,9 @@ $(document).ready(function () {
 });
 
 function getEventosStorage() {
+    if (localStorage.getItem('Eventos') == null) {
+        return null;
+    }
     getEventosStorage = localStorage.getItem('Eventos');
     return JSON.parse(getEventosStorage)
 }
