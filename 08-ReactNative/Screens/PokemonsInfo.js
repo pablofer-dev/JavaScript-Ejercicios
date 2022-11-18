@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { ListItem, Avatar, Image } from '@rneui/themed';
-import { SvgUri } from 'react-native-svg';
 
 function DetallesScreen({ route, navigation }) {
     /* Abilitys  Stats*/
@@ -42,12 +41,7 @@ function DetallesScreen({ route, navigation }) {
                                 PlaceholderContent={<ActivityIndicator />}
                             />
                             <ListItem.Content >
-
                                 <ListItem.Title style={styles.title}>{l.name}</ListItem.Title>
-                                <ListItem.Subtitle style={styles.subtitle}>Type: </ListItem.Subtitle>
-                                <ListItem.Subtitle style={styles.subtitle}>{l.subtitle}</ListItem.Subtitle>
-                                <ListItem.Subtitle style={styles.subtitle}>Abilitys: </ListItem.Subtitle>
-                                <ListItem.Subtitle style={styles.subtitle}>{l.abilities}</ListItem.Subtitle>
                             </ListItem.Content>
 
                         </ListItem>
