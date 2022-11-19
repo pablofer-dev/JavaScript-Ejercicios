@@ -1,6 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Text, StyleSheet, View, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { ListItem, Avatar } from '@rneui/themed';
+import { setCustomText } from 'react-native-global-props';
+
+import * as Font from 'expo-font';
+Font.loadAsync({
+    'Montserrat-Regular': require('../assets/fonts/Montserrat-Regular.ttf'),
+})
 
 function PokemonsScreen({ navigation }) {
     const [pokemons, setPokemons] = useState([]);
@@ -10,7 +16,7 @@ function PokemonsScreen({ navigation }) {
             const url = `https://pokeapi.co/api/v2/pokemon/${j}/`
             const response = await fetch(url)
             const data = await response.json()
-            let numberAbility= data.types.length -1;
+            let numberAbility = data.types.length - 1;
             let jsonGenerator = { avatar_url: data.sprites.front_default, name: data.forms[0].name.toUpperCase(), subtitle: data.types[0].type.name + " +" + numberAbility };
             await pokemons_array.push(jsonGenerator);
         }
@@ -41,7 +47,7 @@ function PokemonsScreen({ navigation }) {
                                     <ListItem.Title style={styles.title}>{l.name}</ListItem.Title>
                                     <ListItem.Subtitle style={styles.subtitle}> Type: {l.subtitle}</ListItem.Subtitle>
                                 </ListItem.Content>
-                                <Text style={styles.number}>{index + 1}</Text>
+                                <Text style={styles.number}>{`#${index + 1}`}</Text>
                             </ListItem>
                         </TouchableOpacity>
                     ))
@@ -49,6 +55,11 @@ function PokemonsScreen({ navigation }) {
             </View>
         </ScrollView>
     );
+}
+const customTextProps = {
+    style: {
+        fontFamily: 'Montserrat-Regular',
+    }
 }
 const styles = StyleSheet.create({
     container: {
@@ -69,4 +80,5 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
 });
+setCustomText(customTextProps);
 export default PokemonsScreen;
