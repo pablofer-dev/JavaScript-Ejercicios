@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { ListItem, Avatar, Image } from '@rneui/themed';
+import { ListItem, Avatar, Image, Button } from '@rneui/themed';
 import { setCustomText } from 'react-native-global-props';
 import * as Font from 'expo-font';
 
@@ -47,10 +47,9 @@ function DetallesScreen({ route, navigation }) {
                             </ListItem.Content>
                         </ListItem>
 
-
                     ))
-
                 }
+
             </View>
             <View>
                 {pokemons.length == 0 ? <ActivityIndicator size="large" /> :
@@ -66,11 +65,7 @@ function DetallesScreen({ route, navigation }) {
                                 <ListItem.Subtitle style={styles.subtitle}>{l.abilities}</ListItem.Subtitle>
                             </ListItem.Content>
                         </ListItem>
-
-
-
                     ))
-
                 }
             </View>
         </ScrollView>
