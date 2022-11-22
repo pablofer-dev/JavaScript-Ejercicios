@@ -20,7 +20,6 @@ function PokemonsScreen({ navigation }) {
             let jsonGenerator = { avatar_url: data.sprites.front_default, name: data.forms[0].name.toUpperCase(), subtitle: data.types[0].type.name + " +" + numberAbility };
             await pokemons_array.push(jsonGenerator);
         }
-
         setPokemons(pokemons_array);
     }
     useEffect(() => {
@@ -36,7 +35,7 @@ function PokemonsScreen({ navigation }) {
                 {pokemons.length == 0 ? <ActivityIndicator size="large" /> :
                     pokemons.map((l, index) => (
                         <TouchableOpacity key={index} onPress={() => {
-                            navigation.navigate('Detalles', { id: index });
+                            navigation.navigate('Detalles', { id: index,name:l.name });
                         }
                         }>
                             <ListItem containerStyle={{ backgroundColor: "rgba(189, 189, 189, 0.596);" }}>

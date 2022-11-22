@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
@@ -20,8 +20,8 @@ function HomeScreen() {
                         fontWeight: 'bold',
                     },
                 }} name="Pokemons" component={PokemonsScreen} />
-                <Stack.Screen options={{
-                    title: 'Pokemons',
+                <Stack.Screen options={({ route }) => ({
+                    title: route.params.name,
                     headerStyle: {
                         backgroundColor: 'gray',
                     },
@@ -29,11 +29,12 @@ function HomeScreen() {
                     headerTitleStyle: {
                         fontWeight: 'bold',
                     },
-                }} name="Detalles" component={DetallesScreen} />
+                })} name="Detalles" component={DetallesScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
 }
+
 //Styles Component
 const styles = StyleSheet.create({
     container: {

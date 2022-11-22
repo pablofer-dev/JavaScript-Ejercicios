@@ -21,7 +21,6 @@ export function Register() {
     } catch (error) {
       setError(error.message);
     }
-
   }
 
   return (
