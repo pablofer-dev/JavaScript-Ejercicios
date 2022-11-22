@@ -10,7 +10,11 @@ export const useAuth = () => {
 
 export function AuthProvider({ children }) {
     const signUp = (email, password) => {
-        createUserWithEmailAndPassword(auth, email, password)
+        try {
+            return createUserWithEmailAndPassword(auth, email, password)
+        } catch (error) {
+            return error
+        }
     }
     return <authContentx.Provider value={{ signUp }}>{children}</authContentx.Provider>
 }

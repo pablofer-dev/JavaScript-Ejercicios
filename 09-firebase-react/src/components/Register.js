@@ -19,7 +19,12 @@ export function Register() {
       await signUp(user.email, user.password);
       navigate('/');
     } catch (error) {
-      setError(error.message);
+      if (error.message === 'Firebase: Error (auth/internal-error).' || error.message === 'Firebase: Error (auth/invalid-email).' || error.message === 'Firebase: Error (auth/missing-email).') {
+        setError('Invalid email or password');
+      }
+      else {
+        setError(error.message);
+      }
     }
   }
 
